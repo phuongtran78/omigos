@@ -1,1599 +1,1078 @@
 <!DOCTYPE html>
-<html>
+<html lang="zxx">
 
 <head>
+
+    <!-- Metas -->
     <meta charset="utf-8">
-    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="keywords" content="HTML5 Template Avo onepage themeforest" />
+    <meta name="description" content="Avo - Onepage Multi-Purpose HTML5 Template" />
+    <meta name="author" content="" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
+    <!-- Title  -->
+    <title>Avo</title>
 
-    <title>🤖</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <meta name="description">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="img/favicon.ico" />
 
-    <meta property="og:type">
-    <meta property="og:title">
-    <meta property="og:description">
-    <meta property="og:url">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- font-family: 'Manrope', sans-serif; -->
 
-    <script type="text/javascript" src="dat.gui.min.js"></script>
-    <style>
-        * {
-            user-select: none;
-        }
-        
-        html,
-        body {
-            overflow: hidden;
-        }
-        
-        body {
-            margin: 0;
-            position: fixed;
-            width: 100%;
-            height: 100%;
-        }
-        
-        canvas {
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
-        
-        .dg {
-            opacity: 0.9;
-        }
-        
-        .dg .property-name {
-            overflow: visible;
-        }
-        
-        .bigFont {
-            font-size: 150%;
-            color: #8C8C8C;
-        }
-        
-        .cr.function.appBigFont {
-            font-size: 150%;
-            line-height: 27px;
-            background-color: #2F4F4F;
-        }
-        
-        .cr.function.appBigFont .property-name {
-            float: none;
-        }
-        
-        .cr.function.appBigFont .icon {
-            position: sticky;
-            bottom: 27px;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Plugins -->
+    <link rel="stylesheet" href="css/plugins.css" />
+
+    <!-- Core Style Css -->
+    <link rel="stylesheet" href="css/style.css" />
+
 </head>
 
 <body>
-    <canvas></canvas>
-    <!-- <script src="./script.js"></script> -->
-    <script type="text/javascript">
-        'use strict';
-
-        const canvas = document.getElementsByTagName('canvas')[0];
-        canvas.width = canvas.clientWidth;
-        canvas.height = canvas.clientHeight;
-
-        Array.prototype.getRandom = function() {
-            return this[Math.floor(Math.random() * this.length)];
-        };
-
-        let splatColors = [{
-            r: 0,
-            g: 0.15,
-            b: 0
-        }];
-
-        let config = {
-            SIM_RESOLUTION: 256,
-            DYE_RESOLUTION: 1024,
-            DENSITY_DISSIPATION: 0.97,
-            VELOCITY_DISSIPATION: 0.98,
-            PRESSURE_DISSIPATION: 0.8,
-            PRESSURE_ITERATIONS: 20,
-            CURL: 30,
-            SPLAT_RADIUS: 0.3,
-            SHADING: true,
-            COLORFUL: true,
-            PAUSED: false,
-            BACK_COLOR: {
-                r: 0,
-                g: 0,
-                b: 0
-            },
-            TRANSPARENT: false,
-            BLOOM: true,
-            BLOOM_ITERATIONS: 8,
-            BLOOM_RESOLUTION: 256,
-            BLOOM_INTENSITY: 0.8,
-            BLOOM_THRESHOLD: 0.6,
-            BLOOM_SOFT_KNEE: 0.7,
-            POINTER_COLOR: [{
-                r: 0,
-                g: 0.15,
-                b: 0
-            }],
-            SOUND_SENSITIVITY: 0.25,
-            AUDIO_RESPONSIVE: true,
-            FREQ_RANGE: 8,
-            FREQ_RANGE_START: 0
-        };
-
-        document.addEventListener("DOMContentLoaded", () => {
-            window.wallpaperPropertyListener = {
-                applyUserProperties: (properties) => {
-                    if (properties.bloom_intensity) config.BLOOM_INTENSITY = properties.bloom_intensity.value;
-                    if (properties.bloom_threshold) config.BLOOM_THRESHOLD = properties.bloom_threshold.value;
-                    if (properties.colorful) config.COLORFUL = properties.colorful.value;
-                    if (properties.density_diffusion) config.DENSITY_DISSIPATION = properties.density_diffusion.value;
-                    if (properties.enable_bloom) config.BLOOM = properties.enable_bloom.value;
-                    if (properties.paused) config.PAUSED = properties.paused.value;
-                    if (properties.pressure_diffusion) config.PRESSURE_DISSIPATION = properties.pressure_diffusion.value;
-                    if (properties.shading) config.SHADING = properties.shading.value;
-                    if (properties.splat_radius) config.SPLAT_RADIUS = properties.splat_radius.value;
-                    if (properties.velocity_diffusion) config.VELOCITY_DISSIPATION = properties.velocity_diffusion.value;
-                    if (properties.vorticity) config.CURL = properties.vorticity.value;
-                    if (properties.sound_sensitivity) config.SOUND_SENSITIVITY = properties.sound_sensitivity.value;
-                    if (properties.audio_responsive) config.AUDIO_RESPONSIVE = properties.audio_responsive.value;
-                    if (properties.simulation_resolution) {
-                        config.SIM_RESOLUTION = properties.simulation_resolution.value;
-                        initFramebuffers();
-                    }
-                    if (properties.dye_resolution) {
-                        config.DYE_RESOLUTION = properties.dye_resolution.value;
-                        initFramebuffers();
-                    }
-                    if (properties.splat_color) splatColors[0] = rgbToPointerColor(properties.splat_color.value);
-                    if (properties.splat_color_2) splatColors[1] = rgbToPointerColor(properties.splat_color_2.value);
-                    if (properties.splat_color_3) splatColors[2] = rgbToPointerColor(properties.splat_color_3.value);
-                    if (properties.splat_color_4) splatColors[3] = rgbToPointerColor(properties.splat_color_4.value);
-                    if (properties.splat_color_5) splatColors[4] = rgbToPointerColor(properties.splat_color_5.value);
-                    if (properties.background_color) {
-                        let c = properties.background_color.value.split(" "),
-                            r = Math.floor(c[0] * 255),
-                            g = Math.floor(c[1] * 255),
-                            b = Math.floor(c[2] * 255);
-                        document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
-                        config.BACK_COLOR.r = r;
-                        config.BACK_COLOR.g = g;
-                        config.BACK_COLOR.b = b;
-                    }
-                    if (properties.more_colors && !properties.more_colors.value) {
-                        config.POINTER_COLOR = [splatColors[0]];
-                    } else if (properties.more_colors && properties.more_colors.value) {
-                        config.POINTER_COLOR = splatColors;
-                    }
-                    if (properties.use_background_image) config.TRANSPARENT = properties.use_background_image.value;
-                    if (properties.background_image) canvas.style.backgroundImage = `url("file:///${properties.background_image.value}")`;
-                    if (properties.repeat_background) canvas.style.backgroundRepeat = properties.repeat_background.value ? "repeat" : "no-repeat";
-                    if (properties.background_image_size) canvas.style.backgroundSize = properties.background_image_size.value;
-                    if (properties.frequency_range) {
-                        config.FREQ_RANGE = properties.frequency_range.value;
-
-                        if (config.FREQ_RANGE + config.FREQ_RANGE_START > 61) {
-                            config.FREQ_RANGE_START = 62 - config.FREQ_RANGE;
-                        }
-                    }
-                    if (properties.frequency_range_start) {
-                        if (config.FREQ_RANGE + properties.frequency_range_start.value > 61) {
-                            config.FREQ_RANGE_START = 62 - config.FREQ_RANGE;
-                        } else {
-                            config.FREQ_RANGE_START = properties.frequency_range_start.value;
-                        }
-                    };
-                }
-            };
-
-            window.wallpaperRegisterAudioListener((audioArray) => {
-                if (!config.AUDIO_RESPONSIVE) return;
-                if (audioArray[0] > 5) return;
-
-                let bass = 0.0;
-                let half = Math.floor(audioArray.length / 2);
-
-                for (let i = 0; i <= config.FREQ_RANGE; i++) {
-                    bass += audioArray[i + config.FREQ_RANGE_START];
-                    bass += audioArray[half + (i + config.FREQ_RANGE_START)];
-                }
-                bass /= (config.FREQ_RANGE * 2);
-                multipleSplats(parseInt((bass * config.SOUND_SENSITIVITY) * 10));
-            });
-        });
-
-        function indexOfMax(arr) {
-            if (arr.length === 0) {
-                return -1;
-            }
-
-            var max = arr[0];
-            var maxIndex = 0;
-
-            for (var i = 1; i < arr.length; i++) {
-                if (arr[i] > max) {
-                    maxIndex = i;
-                    max = arr[i];
-                }
-            }
-
-            return maxIndex;
-        }
-
-        function pointerPrototype() {
-            this.id = -1;
-            this.x = 0;
-            this.y = 0;
-            this.dx = 0;
-            this.dy = 0;
-            this.down = false;
-            this.moved = false;
-            this.color = [30, 0, 300];
-        }
-
-        let pointers = [];
-        let splatStack = [];
-        let bloomFramebuffers = [];
-        pointers.push(new pointerPrototype());
-
-        const {
-            gl,
-            ext
-        } = getWebGLContext(canvas);
-
-        if (isMobile())
-            config.SHADING = false;
-        if (!ext.supportLinearFiltering) {
-            config.SHADING = false;
-            config.BLOOM = false;
-        }
-
-        // startGUI();
-
-        function getWebGLContext(canvas) {
-            const params = {
-                alpha: true,
-                depth: false,
-                stencil: false,
-                antialias: false,
-                preserveDrawingBuffer: false
-            };
-
-            let gl = canvas.getContext('webgl2', params);
-            const isWebGL2 = !!gl;
-            if (!isWebGL2)
-                gl = canvas.getContext('webgl', params) || canvas.getContext('experimental-webgl', params);
-
-            let halfFloat;
-            let supportLinearFiltering;
-            if (isWebGL2) {
-                gl.getExtension('EXT_color_buffer_float');
-                supportLinearFiltering = gl.getExtension('OES_texture_float_linear');
-            } else {
-                halfFloat = gl.getExtension('OES_texture_half_float');
-                supportLinearFiltering = gl.getExtension('OES_texture_half_float_linear');
-            }
-
-            gl.clearColor(0.0, 0.0, 0.0, 1.0);
-
-            const halfFloatTexType = isWebGL2 ? gl.HALF_FLOAT : halfFloat.HALF_FLOAT_OES;
-            let formatRGBA;
-            let formatRG;
-            let formatR;
-
-            if (isWebGL2) {
-                formatRGBA = getSupportedFormat(gl, gl.RGBA16F, gl.RGBA, halfFloatTexType);
-                formatRG = getSupportedFormat(gl, gl.RG16F, gl.RG, halfFloatTexType);
-                formatR = getSupportedFormat(gl, gl.R16F, gl.RED, halfFloatTexType);
-            } else {
-                formatRGBA = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
-                formatRG = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
-                formatR = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
-            }
-
-            return {
-                gl,
-                ext: {
-                    formatRGBA,
-                    formatRG,
-                    formatR,
-                    halfFloatTexType,
-                    supportLinearFiltering
-                }
-            };
-        }
-
-        function getSupportedFormat(gl, internalFormat, format, type) {
-            if (!supportRenderTextureFormat(gl, internalFormat, format, type)) {
-                switch (internalFormat) {
-                    case gl.R16F:
-                        return getSupportedFormat(gl, gl.RG16F, gl.RG, type);
-                    case gl.RG16F:
-                        return getSupportedFormat(gl, gl.RGBA16F, gl.RGBA, type);
-                    default:
-                        return null;
-                }
-            }
-
-            return {
-                internalFormat,
-                format
-            }
-        }
-
-        function supportRenderTextureFormat(gl, internalFormat, format, type) {
-            let texture = gl.createTexture();
-            gl.bindTexture(gl.TEXTURE_2D, texture);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-            gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat, 4, 4, 0, format, type, null);
-
-            let fbo = gl.createFramebuffer();
-            gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
-            gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
-
-            const status = gl.checkFramebufferStatus(gl.FRAMEBUFFER);
-            if (status != gl.FRAMEBUFFER_COMPLETE)
-                return false;
-            return true;
-        }
-
-        function startGUI() {
-            var gui = new dat.GUI({
-                width: 300
-            });
-            gui.add(config, 'SIM_RESOLUTION', {
-                '32': 32,
-                '64': 64,
-                '128': 128,
-                '256': 256
-            }).name('sim resolution').onFinishChange(initFramebuffers);
-            gui.add(config, 'DYE_RESOLUTION', {
-                '128': 128,
-                '256': 256,
-                '512': 512,
-                '1024': 1024
-            }).name('dye resolution').onFinishChange(initFramebuffers);
-            gui.add(config, 'DENSITY_DISSIPATION', 0.9, 1.0).name('density diffusion');
-            gui.add(config, 'VELOCITY_DISSIPATION', 0.9, 1.0).name('velocity diffusion');
-            gui.add(config, 'PRESSURE_DISSIPATION', 0.0, 1.0).name('pressure diffusion');
-            gui.add(config, 'CURL', 0, 50).name('vorticity').step(1);
-            gui.add(config, 'SPLAT_RADIUS', 0.01, 1.0).name('splat radius');
-            gui.add(config, 'SHADING').name('shading');
-            gui.add(config, 'COLORFUL').name('colorful');
-            gui.add(config, 'PAUSED').name('paused').listen();
-
-            gui.add({
-                fun: () => {
-                    splatStack.push(parseInt(Math.random() * 20) + 5);
-                }
-            }, 'fun').name('Random splats');
-
-            let bloomFolder = gui.addFolder('Bloom');
-            bloomFolder.add(config, 'BLOOM').name('enabled');
-            bloomFolder.add(config, 'BLOOM_INTENSITY', 0.1, 2.0).name('intensity');
-            bloomFolder.add(config, 'BLOOM_THRESHOLD', 0.0, 1.0).name('threshold');
-
-            let captureFolder = gui.addFolder('Capture');
-            captureFolder.addColor(config, 'BACK_COLOR').name('background color');
-            captureFolder.add(config, 'TRANSPARENT').name('transparent');
-            captureFolder.add({
-                fun: captureScreenshot
-            }, 'fun').name('take screenshot');
-
-            let github = gui.add({
-                fun: () => {
-                    window.open('https://github.com/PavelDoGreat/WebGL-Fluid-Simulation');
-                }
-            }, 'fun').name('Github');
-            github.__li.className = 'cr function bigFont';
-            github.__li.style.borderLeft = '3px solid #8C8C8C';
-            let githubIcon = document.createElement('span');
-            github.domElement.parentElement.appendChild(githubIcon);
-            githubIcon.className = 'icon github';
-
-            let twitter = gui.add({
-                fun: () => {
-                    window.open('https://twitter.com/PavelDoGreat');
-                }
-            }, 'fun').name('Twitter');
-            twitter.__li.className = 'cr function bigFont';
-            twitter.__li.style.borderLeft = '3px solid #8C8C8C';
-            let twitterIcon = document.createElement('span');
-            twitter.domElement.parentElement.appendChild(twitterIcon);
-            twitterIcon.className = 'icon twitter';
-
-            let discord = gui.add({
-                fun: () => {
-                    window.open('https://discordapp.com/invite/CeqZDDE');
-                }
-            }, 'fun').name('Discord');
-            discord.__li.className = 'cr function bigFont';
-            discord.__li.style.borderLeft = '3px solid #8C8C8C';
-            let discordIcon = document.createElement('span');
-            discord.domElement.parentElement.appendChild(discordIcon);
-            discordIcon.className = 'icon discord';
-
-            let app = gui.add({
-                fun: () => {
-                    window.open('http://onelink.to/5b58bn');
-                }
-            }, 'fun').name('Check out new improved version');
-            app.__li.className = 'cr function appBigFont';
-            app.__li.style.borderLeft = '3px solid #00FF7F';
-            let appIcon = document.createElement('span');
-            app.domElement.parentElement.appendChild(appIcon);
-            appIcon.className = 'icon app';
-
-            if (isMobile())
-                gui.close();
-        }
-
-        function captureScreenshot() {
-            colorProgram.bind();
-            gl.uniform4f(colorProgram.uniforms.color, 0, 0, 0, 1);
-            blit(density.write.fbo);
-
-            render(density.write.fbo);
-            gl.bindFramebuffer(gl.FRAMEBUFFER, density.write.fbo);
-
-            let length = dyeWidth * dyeHeight * 4;
-            let pixels = new Float32Array(length);
-            gl.readPixels(0, 0, dyeWidth, dyeHeight, gl.RGBA, gl.FLOAT, pixels);
-
-            let newPixels = new Uint8Array(length);
-
-            let id = 0;
-            for (let i = dyeHeight - 1; i >= 0; i--) {
-                for (let j = 0; j < dyeWidth; j++) {
-                    let nid = i * dyeWidth * 4 + j * 4;
-                    newPixels[nid + 0] = clamp01(pixels[id + 0]) * 255;
-                    newPixels[nid + 1] = clamp01(pixels[id + 1]) * 255;
-                    newPixels[nid + 2] = clamp01(pixels[id + 2]) * 255;
-                    newPixels[nid + 3] = clamp01(pixels[id + 3]) * 255;
-                    id += 4;
-                }
-            }
-
-            let captureCanvas = document.createElement('canvas');
-            let ctx = captureCanvas.getContext('2d');
-            captureCanvas.width = dyeWidth;
-            captureCanvas.height = dyeHeight;
-
-            let imageData = ctx.createImageData(dyeWidth, dyeHeight);
-            imageData.data.set(newPixels);
-            ctx.putImageData(imageData, 0, 0);
-            let datauri = captureCanvas.toDataURL();
-
-            downloadURI("fluid.png", datauri);
-
-            URL.revokeObjectURL(datauri);
-        }
-
-        function clamp01(input) {
-            return Math.min(Math.max(input, 0), 1);
-        }
-
-        function downloadURI(filename, uri) {
-            let link = document.createElement("a");
-            link.download = filename;
-            link.href = uri;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-
-        function isMobile() {
-            return /Mobi|Android/i.test(navigator.userAgent);
-        }
-
-        class GLProgram {
-            constructor(vertexShader, fragmentShader) {
-                this.uniforms = {};
-                this.program = gl.createProgram();
-
-                gl.attachShader(this.program, vertexShader);
-                gl.attachShader(this.program, fragmentShader);
-                gl.linkProgram(this.program);
-
-                if (!gl.getProgramParameter(this.program, gl.LINK_STATUS))
-                    throw gl.getProgramInfoLog(this.program);
-
-                const uniformCount = gl.getProgramParameter(this.program, gl.ACTIVE_UNIFORMS);
-                for (let i = 0; i < uniformCount; i++) {
-                    const uniformName = gl.getActiveUniform(this.program, i).name;
-                    this.uniforms[uniformName] = gl.getUniformLocation(this.program, uniformName);
-                }
-            }
-
-            bind() {
-                gl.useProgram(this.program);
-            }
-        }
-
-        function compileShader(type, source) {
-            const shader = gl.createShader(type);
-            gl.shaderSource(shader, source);
-            gl.compileShader(shader);
-
-            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS))
-                throw gl.getShaderInfoLog(shader);
-
-            return shader;
-        };
-
-        const baseVertexShader = compileShader(gl.VERTEX_SHADER, `
-    precision highp float;
-
-    attribute vec2 aPosition;
-    varying vec2 vUv;
-    varying vec2 vL;
-    varying vec2 vR;
-    varying vec2 vT;
-    varying vec2 vB;
-    uniform vec2 texelSize;
-
-    void main () {
-        vUv = aPosition * 0.5 + 0.5;
-        vL = vUv - vec2(texelSize.x, 0.0);
-        vR = vUv + vec2(texelSize.x, 0.0);
-        vT = vUv + vec2(0.0, texelSize.y);
-        vB = vUv - vec2(0.0, texelSize.y);
-        gl_Position = vec4(aPosition, 0.0, 1.0);
-    }
-`);
-
-        const clearShader = compileShader(gl.FRAGMENT_SHADER, `
-    precision mediump float;
-    precision mediump sampler2D;
-
-    varying highp vec2 vUv;
-    uniform sampler2D uTexture;
-    uniform float value;
-
-    void main () {
-        gl_FragColor = value * texture2D(uTexture, vUv);
-    }
-`);
-
-        const colorShader = compileShader(gl.FRAGMENT_SHADER, `
-    precision mediump float;
-
-    uniform vec4 color;
-
-    void main () {
-        gl_FragColor = color;
-    }
-`);
-
-        const backgroundShader = compileShader(gl.FRAGMENT_SHADER, `
-    void main () {
-        gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
-    }
-`);
-
-        const displayShader = compileShader(gl.FRAGMENT_SHADER, `
-    precision highp float;
-    precision highp sampler2D;
-
-    varying vec2 vUv;
-    uniform sampler2D uTexture;
-
-    void main () {
-        vec3 C = texture2D(uTexture, vUv).rgb;
-        float a = max(C.r, max(C.g, C.b));
-        gl_FragColor = vec4(C, a);
-    }
-`);
-
-        const displayBloomShader = compileShader(gl.FRAGMENT_SHADER, `
-    precision highp float;
-    precision highp sampler2D;
-
-    varying vec2 vUv;
-    uniform sampler2D uTexture;
-    uniform sampler2D uBloom;
-    uniform sampler2D uDithering;
-    uniform vec2 ditherScale;
-
-    void main () {
-        vec3 C = texture2D(uTexture, vUv).rgb;
-        vec3 bloom = texture2D(uBloom, vUv).rgb;
-        vec3 noise = texture2D(uDithering, vUv * ditherScale).rgb;
-        noise = noise * 2.0 - 1.0;
-        bloom += noise / 800.0;
-        bloom = pow(bloom.rgb, vec3(1.0 / 2.2));
-        C += bloom;
-        float a = max(C.r, max(C.g, C.b));
-        gl_FragColor = vec4(C, a);
-    }
-`);
-
-        const displayShadingShader = compileShader(gl.FRAGMENT_SHADER, `
-    precision highp float;
-    precision highp sampler2D;
-
-    varying vec2 vUv;
-    varying vec2 vL;
-    varying vec2 vR;
-    varying vec2 vT;
-    varying vec2 vB;
-    uniform sampler2D uTexture;
-    uniform vec2 texelSize;
-
-    void main () {
-        vec3 L = texture2D(uTexture, vL).rgb;
-        vec3 R = texture2D(uTexture, vR).rgb;
-        vec3 T = texture2D(uTexture, vT).rgb;
-        vec3 B = texture2D(uTexture, vB).rgb;
-        vec3 C = texture2D(uTexture, vUv).rgb;
-
-        float dx = length(R) - length(L);
-        float dy = length(T) - length(B);
-
-        vec3 n = normalize(vec3(dx, dy, length(texelSize)));
-        vec3 l = vec3(0.0, 0.0, 1.0);
-
-        float diffuse = clamp(dot(n, l) + 0.7, 0.7, 1.0);
-        C.rgb *= diffuse;
-
-        float a = max(C.r, max(C.g, C.b));
-        gl_FragColor = vec4(C, a);
-    }
-`);
-
-        const displayBloomShadingShader = compileShader(gl.FRAGMENT_SHADER, `
-    precision highp float;
-    precision highp sampler2D;
-
-    varying vec2 vUv;
-    varying vec2 vL;
-    varying vec2 vR;
-    varying vec2 vT;
-    varying vec2 vB;
-    uniform sampler2D uTexture;
-    uniform sampler2D uBloom;
-    uniform sampler2D uDithering;
-    uniform vec2 ditherScale;
-    uniform vec2 texelSize;
-
-    void main () {
-        vec3 L = texture2D(uTexture, vL).rgb;
-        vec3 R = texture2D(uTexture, vR).rgb;
-        vec3 T = texture2D(uTexture, vT).rgb;
-        vec3 B = texture2D(uTexture, vB).rgb;
-        vec3 C = texture2D(uTexture, vUv).rgb;
-
-        float dx = length(R) - length(L);
-        float dy = length(T) - length(B);
-
-        vec3 n = normalize(vec3(dx, dy, length(texelSize)));
-        vec3 l = vec3(0.0, 0.0, 1.0);
-
-        float diffuse = clamp(dot(n, l) + 0.7, 0.7, 1.0);
-        C *= diffuse;
-
-        vec3 bloom = texture2D(uBloom, vUv).rgb;
-        vec3 noise = texture2D(uDithering, vUv * ditherScale).rgb;
-        noise = noise * 2.0 - 1.0;
-        bloom += noise / 800.0;
-        bloom = pow(bloom.rgb, vec3(1.0 / 2.2));
-        C += bloom;
-
-        float a = max(C.r, max(C.g, C.b));
-        gl_FragColor = vec4(C, a);
-    }
-`);
-
-        const bloomPrefilterShader = compileShader(gl.FRAGMENT_SHADER, `
-    precision mediump float;
-    precision mediump sampler2D;
-
-    varying vec2 vUv;
-    uniform sampler2D uTexture;
-    uniform vec3 curve;
-    uniform float threshold;
-
-    void main () {
-        vec3 c = texture2D(uTexture, vUv).rgb;
-        float br = max(c.r, max(c.g, c.b));
-        float rq = clamp(br - curve.x, 0.0, curve.y);
-        rq = curve.z * rq * rq;
-        c *= max(rq, br - threshold) / max(br, 0.0001);
-        gl_FragColor = vec4(c, 0.0);
-    }
-`);
-
-        const bloomBlurShader = compileShader(gl.FRAGMENT_SHADER, `
-    precision mediump float;
-    precision mediump sampler2D;
-
-    varying vec2 vL;
-    varying vec2 vR;
-    varying vec2 vT;
-    varying vec2 vB;
-    uniform sampler2D uTexture;
-
-    void main () {
-        vec4 sum = vec4(0.0);
-        sum += texture2D(uTexture, vL);
-        sum += texture2D(uTexture, vR);
-        sum += texture2D(uTexture, vT);
-        sum += texture2D(uTexture, vB);
-        sum *= 0.25;
-        gl_FragColor = sum;
-    }
-`);
-
-        const bloomFinalShader = compileShader(gl.FRAGMENT_SHADER, `
-    precision mediump float;
-    precision mediump sampler2D;
-
-    varying vec2 vL;
-    varying vec2 vR;
-    varying vec2 vT;
-    varying vec2 vB;
-    uniform sampler2D uTexture;
-    uniform float intensity;
-
-    void main () {
-        vec4 sum = vec4(0.0);
-        sum += texture2D(uTexture, vL);
-        sum += texture2D(uTexture, vR);
-        sum += texture2D(uTexture, vT);
-        sum += texture2D(uTexture, vB);
-        sum *= 0.25;
-        gl_FragColor = sum * intensity;
-    }
-`);
-
-        const splatShader = compileShader(gl.FRAGMENT_SHADER, `
-    precision highp float;
-    precision highp sampler2D;
-
-    varying vec2 vUv;
-    uniform sampler2D uTarget;
-    uniform float aspectRatio;
-    uniform vec3 color;
-    uniform vec2 point;
-    uniform float radius;
-
-    void main () {
-        vec2 p = vUv - point.xy;
-        p.x *= aspectRatio;
-        vec3 splat = exp(-dot(p, p) / radius) * color;
-        vec3 base = texture2D(uTarget, vUv).xyz;
-        gl_FragColor = vec4(base + splat, 1.0);
-    }
-`);
-
-        const advectionManualFilteringShader = compileShader(gl.FRAGMENT_SHADER, `
-    precision highp float;
-    precision highp sampler2D;
-
-    varying vec2 vUv;
-    uniform sampler2D uVelocity;
-    uniform sampler2D uSource;
-    uniform vec2 texelSize;
-    uniform vec2 dyeTexelSize;
-    uniform float dt;
-    uniform float dissipation;
-
-    vec4 bilerp (sampler2D sam, vec2 uv, vec2 tsize) {
-        vec2 st = uv / tsize - 0.5;
-
-        vec2 iuv = floor(st);
-        vec2 fuv = fract(st);
-
-        vec4 a = texture2D(sam, (iuv + vec2(0.5, 0.5)) * tsize);
-        vec4 b = texture2D(sam, (iuv + vec2(1.5, 0.5)) * tsize);
-        vec4 c = texture2D(sam, (iuv + vec2(0.5, 1.5)) * tsize);
-        vec4 d = texture2D(sam, (iuv + vec2(1.5, 1.5)) * tsize);
-
-        return mix(mix(a, b, fuv.x), mix(c, d, fuv.x), fuv.y);
-    }
-
-    void main () {
-        vec2 coord = vUv - dt * bilerp(uVelocity, vUv, texelSize).xy * texelSize;
-        gl_FragColor = dissipation * bilerp(uSource, coord, dyeTexelSize);
-        gl_FragColor.a = 1.0;
-    }
-`);
-
-        const advectionShader = compileShader(gl.FRAGMENT_SHADER, `
-    precision highp float;
-    precision highp sampler2D;
-
-    varying vec2 vUv;
-    uniform sampler2D uVelocity;
-    uniform sampler2D uSource;
-    uniform vec2 texelSize;
-    uniform float dt;
-    uniform float dissipation;
-
-    void main () {
-        vec2 coord = vUv - dt * texture2D(uVelocity, vUv).xy * texelSize;
-        gl_FragColor = dissipation * texture2D(uSource, coord);
-        gl_FragColor.a = 1.0;
-    }
-`);
-
-        const divergenceShader = compileShader(gl.FRAGMENT_SHADER, `
-    precision mediump float;
-    precision mediump sampler2D;
-
-    varying highp vec2 vUv;
-    varying highp vec2 vL;
-    varying highp vec2 vR;
-    varying highp vec2 vT;
-    varying highp vec2 vB;
-    uniform sampler2D uVelocity;
-
-    void main () {
-        float L = texture2D(uVelocity, vL).x;
-        float R = texture2D(uVelocity, vR).x;
-        float T = texture2D(uVelocity, vT).y;
-        float B = texture2D(uVelocity, vB).y;
-
-        vec2 C = texture2D(uVelocity, vUv).xy;
-        if (vL.x < 0.0) { L = -C.x; }
-        if (vR.x > 1.0) { R = -C.x; }
-        if (vT.y > 1.0) { T = -C.y; }
-        if (vB.y < 0.0) { B = -C.y; }
-
-        float div = 0.5 * (R - L + T - B);
-        gl_FragColor = vec4(div, 0.0, 0.0, 1.0);
-    }
-`);
-
-        const curlShader = compileShader(gl.FRAGMENT_SHADER, `
-    precision mediump float;
-    precision mediump sampler2D;
-
-    varying highp vec2 vUv;
-    varying highp vec2 vL;
-    varying highp vec2 vR;
-    varying highp vec2 vT;
-    varying highp vec2 vB;
-    uniform sampler2D uVelocity;
-
-    void main () {
-        float L = texture2D(uVelocity, vL).y;
-        float R = texture2D(uVelocity, vR).y;
-        float T = texture2D(uVelocity, vT).x;
-        float B = texture2D(uVelocity, vB).x;
-        float vorticity = R - L - T + B;
-        gl_FragColor = vec4(0.5 * vorticity, 0.0, 0.0, 1.0);
-    }
-`);
-
-        const vorticityShader = compileShader(gl.FRAGMENT_SHADER, `
-    precision highp float;
-    precision highp sampler2D;
-
-    varying vec2 vUv;
-    varying vec2 vL;
-    varying vec2 vR;
-    varying vec2 vT;
-    varying vec2 vB;
-    uniform sampler2D uVelocity;
-    uniform sampler2D uCurl;
-    uniform float curl;
-    uniform float dt;
-
-    void main () {
-        float L = texture2D(uCurl, vL).x;
-        float R = texture2D(uCurl, vR).x;
-        float T = texture2D(uCurl, vT).x;
-        float B = texture2D(uCurl, vB).x;
-        float C = texture2D(uCurl, vUv).x;
-
-        vec2 force = 0.5 * vec2(abs(T) - abs(B), abs(R) - abs(L));
-        force /= length(force) + 0.0001;
-        force *= curl * C;
-        force.y *= -1.0;
-
-        vec2 vel = texture2D(uVelocity, vUv).xy;
-        gl_FragColor = vec4(vel + force * dt, 0.0, 1.0);
-    }
-`);
-
-        const pressureShader = compileShader(gl.FRAGMENT_SHADER, `
-    precision mediump float;
-    precision mediump sampler2D;
-
-    varying highp vec2 vUv;
-    varying highp vec2 vL;
-    varying highp vec2 vR;
-    varying highp vec2 vT;
-    varying highp vec2 vB;
-    uniform sampler2D uPressure;
-    uniform sampler2D uDivergence;
-
-    vec2 boundary (vec2 uv) {
-        return uv;
-        // uncomment if you use wrap or repeat texture mode
-        // uv = min(max(uv, 0.0), 1.0);
-        // return uv;
-    }
-
-    void main () {
-        float L = texture2D(uPressure, boundary(vL)).x;
-        float R = texture2D(uPressure, boundary(vR)).x;
-        float T = texture2D(uPressure, boundary(vT)).x;
-        float B = texture2D(uPressure, boundary(vB)).x;
-        float C = texture2D(uPressure, vUv).x;
-        float divergence = texture2D(uDivergence, vUv).x;
-        float pressure = (L + R + B + T - divergence) * 0.25;
-        gl_FragColor = vec4(pressure, 0.0, 0.0, 1.0);
-    }
-`);
-
-        const gradientSubtractShader = compileShader(gl.FRAGMENT_SHADER, `
-    precision mediump float;
-    precision mediump sampler2D;
-
-    varying highp vec2 vUv;
-    varying highp vec2 vL;
-    varying highp vec2 vR;
-    varying highp vec2 vT;
-    varying highp vec2 vB;
-    uniform sampler2D uPressure;
-    uniform sampler2D uVelocity;
-
-    vec2 boundary (vec2 uv) {
-        return uv;
-        // uv = min(max(uv, 0.0), 1.0);
-        // return uv;
-    }
-
-    void main () {
-        float L = texture2D(uPressure, boundary(vL)).x;
-        float R = texture2D(uPressure, boundary(vR)).x;
-        float T = texture2D(uPressure, boundary(vT)).x;
-        float B = texture2D(uPressure, boundary(vB)).x;
-        vec2 velocity = texture2D(uVelocity, vUv).xy;
-        velocity.xy -= vec2(R - L, T - B);
-        gl_FragColor = vec4(velocity, 0.0, 1.0);
-    }
-`);
-
-        const blit = (() => {
-            gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, -1, 1, 1, 1, 1, -1]), gl.STATIC_DRAW);
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer());
-            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1, 2, 0, 2, 3]), gl.STATIC_DRAW);
-            gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
-            gl.enableVertexAttribArray(0);
-
-            return (destination) => {
-                gl.bindFramebuffer(gl.FRAMEBUFFER, destination);
-                gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0);
-            }
-        })();
-
-        let simWidth;
-        let simHeight;
-        let dyeWidth;
-        let dyeHeight;
-        let density;
-        let velocity;
-        let divergence;
-        let curl;
-        let pressure;
-        let bloom;
-
-        let ditheringTexture = createTextureAsync('LDR_RGB1_0.png');
-
-        const clearProgram = new GLProgram(baseVertexShader, clearShader);
-        const colorProgram = new GLProgram(baseVertexShader, colorShader);
-        const backgroundProgram = new GLProgram(baseVertexShader, backgroundShader);
-        const displayProgram = new GLProgram(baseVertexShader, displayShader);
-        const displayBloomProgram = new GLProgram(baseVertexShader, displayBloomShader);
-        const displayShadingProgram = new GLProgram(baseVertexShader, displayShadingShader);
-        const displayBloomShadingProgram = new GLProgram(baseVertexShader, displayBloomShadingShader);
-        const bloomPrefilterProgram = new GLProgram(baseVertexShader, bloomPrefilterShader);
-        const bloomBlurProgram = new GLProgram(baseVertexShader, bloomBlurShader);
-        const bloomFinalProgram = new GLProgram(baseVertexShader, bloomFinalShader);
-        const splatProgram = new GLProgram(baseVertexShader, splatShader);
-        const advectionProgram = new GLProgram(baseVertexShader, ext.supportLinearFiltering ? advectionShader : advectionManualFilteringShader);
-        const divergenceProgram = new GLProgram(baseVertexShader, divergenceShader);
-        const curlProgram = new GLProgram(baseVertexShader, curlShader);
-        const vorticityProgram = new GLProgram(baseVertexShader, vorticityShader);
-        const pressureProgram = new GLProgram(baseVertexShader, pressureShader);
-        const gradienSubtractProgram = new GLProgram(baseVertexShader, gradientSubtractShader);
-
-        function initFramebuffers() {
-            let simRes = getResolution(config.SIM_RESOLUTION);
-            let dyeRes = getResolution(config.DYE_RESOLUTION);
-
-            simWidth = simRes.width;
-            simHeight = simRes.height;
-            dyeWidth = dyeRes.width;
-            dyeHeight = dyeRes.height;
-
-            const texType = ext.halfFloatTexType;
-            const rgba = ext.formatRGBA;
-            const rg = ext.formatRG;
-            const r = ext.formatR;
-            const filtering = ext.supportLinearFiltering ? gl.LINEAR : gl.NEAREST;
-
-            if (density == null)
-                density = createDoubleFBO(dyeWidth, dyeHeight, rgba.internalFormat, rgba.format, texType, filtering);
-            else
-                density = resizeDoubleFBO(density, dyeWidth, dyeHeight, rgba.internalFormat, rgba.format, texType, filtering);
-
-            if (velocity == null)
-                velocity = createDoubleFBO(simWidth, simHeight, rg.internalFormat, rg.format, texType, filtering);
-            else
-                velocity = resizeDoubleFBO(velocity, simWidth, simHeight, rg.internalFormat, rg.format, texType, filtering);
-
-            divergence = createFBO(simWidth, simHeight, r.internalFormat, r.format, texType, gl.NEAREST);
-            curl = createFBO(simWidth, simHeight, r.internalFormat, r.format, texType, gl.NEAREST);
-            pressure = createDoubleFBO(simWidth, simHeight, r.internalFormat, r.format, texType, gl.NEAREST);
-
-            initBloomFramebuffers();
-        }
-
-        function initBloomFramebuffers() {
-            let res = getResolution(config.BLOOM_RESOLUTION);
-
-            const texType = ext.halfFloatTexType;
-            const rgba = ext.formatRGBA;
-            const filtering = ext.supportLinearFiltering ? gl.LINEAR : gl.NEAREST;
-
-            bloom = createFBO(res.width, res.height, rgba.internalFormat, rgba.format, texType, filtering);
-
-            bloomFramebuffers.length = 0;
-            for (let i = 0; i < config.BLOOM_ITERATIONS; i++) {
-                let width = res.width >> (i + 1);
-                let height = res.height >> (i + 1);
-
-                if (width < 2 || height < 2) break;
-
-                let fbo = createFBO(width, height, rgba.internalFormat, rgba.format, texType, filtering);
-                bloomFramebuffers.push(fbo);
-            }
-        }
-
-        function createFBO(w, h, internalFormat, format, type, param) {
-            gl.activeTexture(gl.TEXTURE0);
-            let texture = gl.createTexture();
-            gl.bindTexture(gl.TEXTURE_2D, texture);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, param);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, param);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-            gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat, w, h, 0, format, type, null);
-
-            let fbo = gl.createFramebuffer();
-            gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
-            gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
-            gl.viewport(0, 0, w, h);
-            gl.clear(gl.COLOR_BUFFER_BIT);
-
-            return {
-                texture,
-                fbo,
-                width: w,
-                height: h,
-                attach(id) {
-                    gl.activeTexture(gl.TEXTURE0 + id);
-                    gl.bindTexture(gl.TEXTURE_2D, texture);
-                    return id;
-                }
-            };
-        }
-
-        function createDoubleFBO(w, h, internalFormat, format, type, param) {
-            let fbo1 = createFBO(w, h, internalFormat, format, type, param);
-            let fbo2 = createFBO(w, h, internalFormat, format, type, param);
-
-            return {
-                get read() {
-                    return fbo1;
-                },
-                set read(value) {
-                    fbo1 = value;
-                },
-                get write() {
-                    return fbo2;
-                },
-                set write(value) {
-                    fbo2 = value;
-                },
-                swap() {
-                    let temp = fbo1;
-                    fbo1 = fbo2;
-                    fbo2 = temp;
-                }
-            }
-        }
-
-        function resizeFBO(target, w, h, internalFormat, format, type, param) {
-            let newFBO = createFBO(w, h, internalFormat, format, type, param);
-            clearProgram.bind();
-            gl.uniform1i(clearProgram.uniforms.uTexture, target.attach(0));
-            gl.uniform1f(clearProgram.uniforms.value, 1);
-            blit(newFBO.fbo);
-            return newFBO;
-        }
-
-        function resizeDoubleFBO(target, w, h, internalFormat, format, type, param) {
-            target.read = resizeFBO(target.read, w, h, internalFormat, format, type, param);
-            target.write = createFBO(w, h, internalFormat, format, type, param);
-            return target;
-        }
-
-        function createTextureAsync(url) {
-            let texture = gl.createTexture();
-            gl.bindTexture(gl.TEXTURE_2D, texture);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, 1, 1, 0, gl.RGB, gl.UNSIGNED_BYTE, new Uint8Array([255, 255, 255]));
-
-            let obj = {
-                texture,
-                width: 1,
-                height: 1,
-                attach(id) {
-                    gl.activeTexture(gl.TEXTURE0 + id);
-                    gl.bindTexture(gl.TEXTURE_2D, texture);
-                    return id;
-                }
-            };
-
-            let image = new Image();
-            image.onload = () => {
-                obj.width = image.width;
-                obj.height = image.height;
-                gl.bindTexture(gl.TEXTURE_2D, texture);
-                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image);
-            };
-            image.src = url;
-
-            return obj;
-        }
-
-        initFramebuffers();
-        multipleSplats(parseInt(Math.random() * 20) + 3);
-
-        let lastColorChangeTime = Date.now();
-
-        update();
-
-        function update() {
-            resizeCanvas();
-            input();
-            if (!config.PAUSED)
-                step(0.016);
-            render(null);
-            requestAnimationFrame(update);
-        }
-
-        function input() {
-            if (splatStack.length > 0)
-                multipleSplats(splatStack.pop());
-
-            for (let i = 0; i < pointers.length; i++) {
-                const p = pointers[i];
-                if (p.moved) {
-                    splat(p.x, p.y, p.dx, p.dy, p.color);
-                    p.moved = false;
-                }
-            }
-
-            if (lastColorChangeTime + 100 < Date.now()) {
-                lastColorChangeTime = Date.now();
-                for (let i = 0; i < pointers.length; i++) {
-                    const p = pointers[i];
-                    p.color = config.COLORFUL ? generateColor() : config.POINTER_COLOR.getRandom();
-                }
-            }
-        }
-
-        function step(dt) {
-            gl.disable(gl.BLEND);
-            gl.viewport(0, 0, simWidth, simHeight);
-
-            curlProgram.bind();
-            gl.uniform2f(curlProgram.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight);
-            gl.uniform1i(curlProgram.uniforms.uVelocity, velocity.read.attach(0));
-            blit(curl.fbo);
-
-            vorticityProgram.bind();
-            gl.uniform2f(vorticityProgram.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight);
-            gl.uniform1i(vorticityProgram.uniforms.uVelocity, velocity.read.attach(0));
-            gl.uniform1i(vorticityProgram.uniforms.uCurl, curl.attach(1));
-            gl.uniform1f(vorticityProgram.uniforms.curl, config.CURL);
-            gl.uniform1f(vorticityProgram.uniforms.dt, dt);
-            blit(velocity.write.fbo);
-            velocity.swap();
-
-            divergenceProgram.bind();
-            gl.uniform2f(divergenceProgram.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight);
-            gl.uniform1i(divergenceProgram.uniforms.uVelocity, velocity.read.attach(0));
-            blit(divergence.fbo);
-
-            clearProgram.bind();
-            gl.uniform1i(clearProgram.uniforms.uTexture, pressure.read.attach(0));
-            gl.uniform1f(clearProgram.uniforms.value, config.PRESSURE_DISSIPATION);
-            blit(pressure.write.fbo);
-            pressure.swap();
-
-            pressureProgram.bind();
-            gl.uniform2f(pressureProgram.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight);
-            gl.uniform1i(pressureProgram.uniforms.uDivergence, divergence.attach(0));
-            for (let i = 0; i < config.PRESSURE_ITERATIONS; i++) {
-                gl.uniform1i(pressureProgram.uniforms.uPressure, pressure.read.attach(1));
-                blit(pressure.write.fbo);
-                pressure.swap();
-            }
-
-            gradienSubtractProgram.bind();
-            gl.uniform2f(gradienSubtractProgram.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight);
-            gl.uniform1i(gradienSubtractProgram.uniforms.uPressure, pressure.read.attach(0));
-            gl.uniform1i(gradienSubtractProgram.uniforms.uVelocity, velocity.read.attach(1));
-            blit(velocity.write.fbo);
-            velocity.swap();
-
-            advectionProgram.bind();
-            gl.uniform2f(advectionProgram.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight);
-            if (!ext.supportLinearFiltering)
-                gl.uniform2f(advectionProgram.uniforms.dyeTexelSize, 1.0 / simWidth, 1.0 / simHeight);
-            let velocityId = velocity.read.attach(0);
-            gl.uniform1i(advectionProgram.uniforms.uVelocity, velocityId);
-            gl.uniform1i(advectionProgram.uniforms.uSource, velocityId);
-            gl.uniform1f(advectionProgram.uniforms.dt, dt);
-            gl.uniform1f(advectionProgram.uniforms.dissipation, config.VELOCITY_DISSIPATION);
-            blit(velocity.write.fbo);
-            velocity.swap();
-
-            gl.viewport(0, 0, dyeWidth, dyeHeight);
-
-            if (!ext.supportLinearFiltering)
-                gl.uniform2f(advectionProgram.uniforms.dyeTexelSize, 1.0 / dyeWidth, 1.0 / dyeHeight);
-            gl.uniform1i(advectionProgram.uniforms.uVelocity, velocity.read.attach(0));
-            gl.uniform1i(advectionProgram.uniforms.uSource, density.read.attach(1));
-            gl.uniform1f(advectionProgram.uniforms.dissipation, config.DENSITY_DISSIPATION);
-            blit(density.write.fbo);
-            density.swap();
-        }
-
-        function render(target) {
-            if (config.BLOOM)
-                applyBloom(density.read, bloom);
-
-            if (target == null || !config.TRANSPARENT) {
-                gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
-                gl.enable(gl.BLEND);
-            } else {
-                gl.disable(gl.BLEND);
-            }
-
-            let width = target == null ? gl.drawingBufferWidth : dyeWidth;
-            let height = target == null ? gl.drawingBufferHeight : dyeHeight;
-
-            gl.viewport(0, 0, width, height);
-
-            if (!config.TRANSPARENT) {
-                colorProgram.bind();
-                let bc = config.BACK_COLOR;
-                gl.uniform4f(colorProgram.uniforms.color, bc.r / 255, bc.g / 255, bc.b / 255, 1);
-                blit(target);
-            }
-
-            if (target == null && config.TRANSPARENT) {
-                backgroundProgram.bind();
-                gl.uniform1f(backgroundProgram.uniforms.aspectRatio, canvas.width / canvas.height);
-                blit(null);
-            }
-
-            if (config.SHADING) {
-                let program = config.BLOOM ? displayBloomShadingProgram : displayShadingProgram;
-                program.bind();
-                gl.uniform2f(program.uniforms.texelSize, 1.0 / width, 1.0 / height);
-                gl.uniform1i(program.uniforms.uTexture, density.read.attach(0));
-                if (config.BLOOM) {
-                    gl.uniform1i(program.uniforms.uBloom, bloom.attach(1));
-                    gl.uniform1i(program.uniforms.uDithering, ditheringTexture.attach(2));
-                    let scale = getTextureScale(ditheringTexture, width, height);
-                    gl.uniform2f(program.uniforms.ditherScale, scale.x, scale.y);
-                }
-            } else {
-                let program = config.BLOOM ? displayBloomProgram : displayProgram;
-                program.bind();
-                gl.uniform1i(program.uniforms.uTexture, density.read.attach(0));
-                if (config.BLOOM) {
-                    gl.uniform1i(program.uniforms.uBloom, bloom.attach(1));
-                    gl.uniform1i(program.uniforms.uDithering, ditheringTexture.attach(2));
-                    let scale = getTextureScale(ditheringTexture, width, height);
-                    gl.uniform2f(program.uniforms.ditherScale, scale.x, scale.y);
-                }
-            }
-
-            blit(target);
-        }
-
-        function applyBloom(source, destination) {
-            if (bloomFramebuffers.length < 2)
-                return;
-
-            let last = destination;
-
-            gl.disable(gl.BLEND);
-            bloomPrefilterProgram.bind();
-            let knee = config.BLOOM_THRESHOLD * config.BLOOM_SOFT_KNEE + 0.0001;
-            let curve0 = config.BLOOM_THRESHOLD - knee;
-            let curve1 = knee * 2;
-            let curve2 = 0.25 / knee;
-            gl.uniform3f(bloomPrefilterProgram.uniforms.curve, curve0, curve1, curve2);
-            gl.uniform1f(bloomPrefilterProgram.uniforms.threshold, config.BLOOM_THRESHOLD);
-            gl.uniform1i(bloomPrefilterProgram.uniforms.uTexture, source.attach(0));
-            gl.viewport(0, 0, last.width, last.height);
-            blit(last.fbo);
-
-            bloomBlurProgram.bind();
-            for (let i = 0; i < bloomFramebuffers.length; i++) {
-                let dest = bloomFramebuffers[i];
-                gl.uniform2f(bloomBlurProgram.uniforms.texelSize, 1.0 / last.width, 1.0 / last.height);
-                gl.uniform1i(bloomBlurProgram.uniforms.uTexture, last.attach(0));
-                gl.viewport(0, 0, dest.width, dest.height);
-                blit(dest.fbo);
-                last = dest;
-            }
-
-            gl.blendFunc(gl.ONE, gl.ONE);
-            gl.enable(gl.BLEND);
-
-            for (let i = bloomFramebuffers.length - 2; i >= 0; i--) {
-                let baseTex = bloomFramebuffers[i];
-                gl.uniform2f(bloomBlurProgram.uniforms.texelSize, 1.0 / last.width, 1.0 / last.height);
-                gl.uniform1i(bloomBlurProgram.uniforms.uTexture, last.attach(0));
-                gl.viewport(0, 0, baseTex.width, baseTex.height);
-                blit(baseTex.fbo);
-                last = baseTex;
-            }
-
-            gl.disable(gl.BLEND);
-            bloomFinalProgram.bind();
-            gl.uniform2f(bloomFinalProgram.uniforms.texelSize, 1.0 / last.width, 1.0 / last.height);
-            gl.uniform1i(bloomFinalProgram.uniforms.uTexture, last.attach(0));
-            gl.uniform1f(bloomFinalProgram.uniforms.intensity, config.BLOOM_INTENSITY);
-            gl.viewport(0, 0, destination.width, destination.height);
-            blit(destination.fbo);
-        }
-
-        function splat(x, y, dx, dy, color) {
-            gl.viewport(0, 0, simWidth, simHeight);
-            splatProgram.bind();
-            gl.uniform1i(splatProgram.uniforms.uTarget, velocity.read.attach(0));
-            gl.uniform1f(splatProgram.uniforms.aspectRatio, canvas.width / canvas.height);
-            gl.uniform2f(splatProgram.uniforms.point, x / canvas.width, 1.0 - y / canvas.height);
-            gl.uniform3f(splatProgram.uniforms.color, dx, -dy, 1.0);
-            gl.uniform1f(splatProgram.uniforms.radius, config.SPLAT_RADIUS / 100.0);
-            blit(velocity.write.fbo);
-            velocity.swap();
-
-            gl.viewport(0, 0, dyeWidth, dyeHeight);
-            gl.uniform1i(splatProgram.uniforms.uTarget, density.read.attach(0));
-            gl.uniform3f(splatProgram.uniforms.color, color.r, color.g, color.b);
-            blit(density.write.fbo);
-            density.swap();
-        }
-
-        function multipleSplats(amount) {
-            for (let i = 0; i < amount; i++) {
-                const color = config.COLORFUL ? generateColor() : Object.assign({}, config.POINTER_COLOR.getRandom());
-                color.r *= 10.0;
-                color.g *= 10.0;
-                color.b *= 10.0;
-                const x = canvas.width * Math.random();
-                const y = canvas.height * Math.random();
-                const dx = 1000 * (Math.random() - 0.5);
-                const dy = 1000 * (Math.random() - 0.5);
-                splat(x, y, dx, dy, color);
-            }
-        }
-
-        function resizeCanvas() {
-            if (canvas.width != canvas.clientWidth || canvas.height != canvas.clientHeight) {
-                canvas.width = canvas.clientWidth;
-                canvas.height = canvas.clientHeight;
-                initFramebuffers();
-            }
-        }
-
-        canvas.addEventListener('mousemove', e => {
-            pointers[0].moved = pointers[0].down;
-            pointers[0].dx = (e.offsetX - pointers[0].x) * 5.0;
-            pointers[0].dy = (e.offsetY - pointers[0].y) * 5.0;
-            pointers[0].x = e.offsetX;
-            pointers[0].y = e.offsetY;
-        });
-
-        canvas.addEventListener('touchmove', e => {
-            e.preventDefault();
-            const touches = e.targetTouches;
-            for (let i = 0; i < touches.length; i++) {
-                let pointer = pointers[i];
-                pointer.moved = pointer.down;
-                pointer.dx = (touches[i].pageX - pointer.x) * 8.0;
-                pointer.dy = (touches[i].pageY - pointer.y) * 8.0;
-                pointer.x = touches[i].pageX;
-                pointer.y = touches[i].pageY;
-            }
-        }, false);
-
-        canvas.addEventListener('mouseenter', () => {
-            pointers[0].down = true;
-            pointers[0].color = config.POINTER_COLOR.getRandom();
-        });
-
-        canvas.addEventListener('touchstart', e => {
-            e.preventDefault();
-            const touches = e.targetTouches;
-            for (let i = 0; i < touches.length; i++) {
-                if (i >= pointers.length)
-                    pointers.push(new pointerPrototype());
-
-                pointers[i].id = touches[i].identifier;
-                pointers[i].down = true;
-                pointers[i].x = touches[i].pageX;
-                pointers[i].y = touches[i].pageY;
-                pointers[i].color = config.POINTER_COLOR.getRandom();
-            }
-        });
-
-        canvas.addEventListener("mousedown", () => {
-            multipleSplats(parseInt(Math.random() * 20) + 5);
-        });
-
-        window.addEventListener('mouseleave', () => {
-            pointers[0].down = false;
-        });
-
-        window.addEventListener('touchend', e => {
-            const touches = e.changedTouches;
-            for (let i = 0; i < touches.length; i++)
-                for (let j = 0; j < pointers.length; j++)
-                    if (touches[i].identifier == pointers[j].id)
-                        pointers[j].down = false;
-        });
-
-        window.addEventListener('keydown', e => {
-            if (e.code === 'KeyP')
-                config.PAUSED = !config.PAUSED;
-            if (e.key === ' ')
-                splatStack.push(parseInt(Math.random() * 20) + 5);
-        });
-
-        function generateColor() {
-            let c = HSVtoRGB(Math.random(), 1.0, 1.0);
-            c.r *= 0.15;
-            c.g *= 0.15;
-            c.b *= 0.15;
-            return c;
-        }
-
-        function HSVtoRGB(h, s, v) {
-            let r, g, b, i, f, p, q, t;
-            i = Math.floor(h * 6);
-            f = h * 6 - i;
-            p = v * (1 - s);
-            q = v * (1 - f * s);
-            t = v * (1 - (1 - f) * s);
-
-            switch (i % 6) {
-                case 0:
-                    r = v, g = t, b = p;
-                    break;
-                case 1:
-                    r = q, g = v, b = p;
-                    break;
-                case 2:
-                    r = p, g = v, b = t;
-                    break;
-                case 3:
-                    r = p, g = q, b = v;
-                    break;
-                case 4:
-                    r = t, g = p, b = v;
-                    break;
-                case 5:
-                    r = v, g = p, b = q;
-                    break;
-            }
-
-            return {
-                r,
-                g,
-                b
-            };
-        }
-
-        function RGBToHue(r, g, b) {
-            // Find greatest and smallest channel values
-            let cmin = Math.min(r, g, b),
-                cmax = Math.max(r, g, b),
-                delta = cmax - cmin,
-                h = 0,
-                s = 0,
-                l = 0;
-
-            // Calculate hue
-            // No difference
-            if (delta == 0)
-                h = 0;
-            // Red is max
-            else if (cmax == r)
-                h = ((g - b) / delta) % 6;
-            // Green is max
-            else if (cmax == g)
-                h = (b - r) / delta + 2;
-            // Blue is max
-            else
-                h = (r - g) / delta + 4;
-
-            h = Math.round(h * 60);
-
-            // Make negative hues positive behind 360°
-            if (h < 0)
-                h += 360;
-
-            return h;
-        }
-
-        function getResolution(resolution) {
-            let aspectRatio = gl.drawingBufferWidth / gl.drawingBufferHeight;
-            if (aspectRatio < 1)
-                aspectRatio = 1.0 / aspectRatio;
-
-            let max = Math.round(resolution * aspectRatio);
-            let min = Math.round(resolution);
-
-            if (gl.drawingBufferWidth > gl.drawingBufferHeight)
-                return {
-                    width: max,
-                    height: min
-                };
-            else
-                return {
-                    width: min,
-                    height: max
-                };
-        }
-
-        function getTextureScale(texture, width, height) {
-            return {
-                x: width / texture.width,
-                y: height / texture.height
-            };
-        }
-
-        function rgbToPointerColor(color) {
-            let c = color.split(" ");
-            let hue = RGBToHue(c[0], c[1], c[2]);
-            let c2 = HSVtoRGB(hue / 360, 1.0, 1.0);
-            c2.r *= 0.15;
-            c2.g *= 0.15;
-            c2.b *= 0.15;
-            return c2;
-        }
-    </script>
+
+
+
+    <!-- ==================== Start Loading ==================== -->
+
+    <div id="preloader">
+    </div>
+
+    <!-- ==================== End Loading ==================== -->
+
+
+    <!-- ==================== Start progress-scroll-button ==================== -->
+
+    <div class="progress-wrap cursor-pointer">
+        <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+        </svg>
+    </div>
+
+    <!-- ==================== End progress-scroll-button ==================== -->
+
+
+    <!-- ==================== Start cursor ==================== -->
+
+    <div class="mouse-cursor cursor-outer"></div>
+    <div class="mouse-cursor cursor-inner"></div>
+
+    <!-- ==================== End cursor ==================== -->
+
+
+
+    <!-- ==================== Start Navbar ==================== -->
+
+    <nav class="navbar change navbar-expand-lg">
+        <div class="container">
+
+            <!-- Logo -->
+            <a class="logo" href="#">
+                <img src="img/logo-light.png" alt="logo">
+            </a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="icon-bar"><i class="fas fa-bars"></i></span>
+            </button>
+
+            <!-- navbar links -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#">Trang Chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">Giới Thiệu</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Gia công sản phẩm</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="showcase.html">Gia công sản phẩm 1</a>
+                            <a class="dropdown-item" href="showcase2.html">Gia công sản phẩm 2</a>
+                            <a class="dropdown-item" href="showcase3.html">Gia công sản phẩm 3</a>
+                            <a class="dropdown-item" href="showcase4.html">Gia công sản phẩm 4</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">Quy Trình</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">Tin Tức</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">Liên Hệ</a>
+                    </li>
+                </ul>
+                <div class="search">
+                    <span class="icon pe-7s-search cursor-pointer"></span>
+                    <div class="search-form text-center custom-font">
+                        <form>
+                            <input type="text" name="search" placeholder="Tìm kiếm">
+                        </form>
+                        <span class="close pe-7s-close cursor-pointer"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== End Navbar ==================== -->
+
+
+
+    <!-- ==================== Start Slider ==================== -->
+
+    <header class="slider-bus position-re valign">
+        <div class="container ontop">
+            <div class="swiper-container swiper-content">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-8 offset-lg-1 offset-md-1">
+                                <div class="caption">
+                                    <h1 data-splitting>
+                                        <div class="thin">Unique brand</div> Stories
+                                    </h1>
+                                    <p>If you need to redesign your new project, new visual strategy, ux structure or you do have some cool ideas for collaboration.</p>
+                                    <a href="#0" class="btn-curve btn-color btn-radius mt-30">
+                                        <span>Discover Work</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-8 offset-lg-1 offset-md-1">
+                                <div class="caption">
+                                    <h1 data-splitting>
+                                        <div class="thin">Digital Design</div>Awards
+                                    </h1>
+                                    <p>If you need to redesign your new project, new visual strategy, ux structure or you do have some cool ideas for collaboration.</p>
+                                    <a href="#0" class="btn-curve btn-color btn-radius mt-30">
+                                        <span>Discover Work</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-8 offset-lg-1 offset-md-1">
+                                <div class="caption">
+                                    <h1 data-splitting>
+                                        <div class="thin">Original</div> Solutions
+                                    </h1>
+                                    <p>If you need to redesign your new project, new visual strategy, ux structure or you do have some cool ideas for collaboration.</p>
+                                    <a href="#0" class="btn-curve btn-color btn-radius mt-30">
+                                        <span>Discover Work</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-container swiper-img">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide bg-img" data-background="img/slid/1.jpg" data-overlay-dark="6"></div>
+                <div class="swiper-slide bg-img" data-background="img/slid/2.jpg" data-overlay-dark="6"></div>
+                <div class="swiper-slide bg-img" data-background="img/slid/3.jpg" data-overlay-dark="6"></div>
+            </div>
+        </div>
+        <div class="curve-bg bg-img" data-background="img/business-bg.png"></div>
+
+        <!-- slider setting -->
+        <div class="setone">
+            <div class="swiper-button-next swiper-nav-ctrl next-ctrl cursor-pointer">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="swiper-button-prev swiper-nav-ctrl prev-ctrl cursor-pointer">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+        </div>
+        <div class="swiper-pagination custom-font"></div>
+    </header>
+
+    <!-- ==================== End Slider ==================== -->
+
+
+
+    <!-- ==================== Start about ==================== -->
+
+    <!-- <section class="about section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 valign">
+                    <div class="content">
+                        <div class="sub-title">
+                            <h6>About Us</h6>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <h3 class="co-tit custom-font wow" data-splitting>Our 20 years working experience make a different business agency services.
+                        </h3>
+                        <p class="wow fadeInUp" data-wow-delay=".4s">We are AVO. We create award-winning websites, remarkable brands and cutting-edge apps.Nullam imperdiet, sem at fringilla lobortis, sem nibh fringilla nibh, id gravida mi purus sit amet erat. Ut dictum nisi masvitp.</p>
+                        <p class="mt-10 wow fadeInUp" data-wow-delay=".4s">Nulla metus metus ullamcorper vel tincidunt sed euismod nibh volutpat velit class aptent taciti sociosqu ad litora.</p>
+                        <a href="#0" class="simple-btn custom-font mt-30 wow" data-splitting><span>Know More</span></a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="blc-img">
+                        <div class="bimg wow imago">
+                            <img src="img/intro/3.jpg" alt="">
+                        </div>
+                        <div class="skills-circle wow fadeInUp" data-wow-delay=".8">
+                            <div class="item">
+                                <div class="skill" data-value="0.9">
+                                    <span class="custom-font">90%</span>
+                                </div>
+                                <div class="cont">
+                                    <span>Project</span>
+                                    <h6>Consulting</h6>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="skill" data-value="0.75">
+                                    <span class="custom-font">75%</span>
+                                </div>
+                                <div class="cont">
+                                    <span>App</span>
+                                    <h6>Development</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <div class="about section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="img-mons">
+                        <div class="row">
+                            <div class="col-md-5 cmd-padding valign">
+                                <div class="img1 wow imago animated" data-wow-delay=".6s" style="visibility: visible; animation-delay: 0.6s;">
+                                    <img src="img/intro/1.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="col-md-7 cmd-padding">
+                                <div class="img2 wow imago animated" data-wow-delay=".4s" style="visibility: visible; animation-delay: 0.4s;">
+                                    <img src="img/intro/3.jpg" alt="">
+                                </div>
+                                <div class="img3 wow imago animated" data-wow-delay=".8s" style="visibility: visible; animation-delay: 0.8s;">
+                                    <img src="img/intro/2.jpg" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 offset-lg-1 valign">
+                    <div class="content">
+                        <div class="sub-title">
+                            <h6>About Us</h6>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <h3 class="main-title wow words chars splitting animated" data-splitting="" style="visibility: visible; --word-total:8; --char-total:32;"><span class="word" data-word="We" style="--word-index:0;"><span class="char" data-char="W" style="--char-index:0;">W</span><span class="char" data-char="e" style="--char-index:1;">e</span></span><span class="whitespace"> </span>
+                            <span class="word" data-word="are" style="--word-index:1;"><span class="char" data-char="a" style="--char-index:2;">a</span><span class="char" data-char="r" style="--char-index:3;">r</span><span class="char" data-char="e" style="--char-index:4;">e</span></span>
+                            <span class="whitespace"> </span>
+                            <span class="word" data-word="more" style="--word-index:2;"><span class="char" data-char="m" style="--char-index:5;">m</span><span class="char" data-char="o" style="--char-index:6;">o</span><span class="char" data-char="r"
+                                style="--char-index:7;">r</span><span class="char" data-char="e" style="--char-index:8;">e</span></span><span class="whitespace"> </span><span class="word" data-word="than" style="--word-index:3;"><span class="char" data-char="t" style="--char-index:9;">t</span>
+                            <span class="char" data-char="h" style="--char-index:10;">h</span><span class="char" data-char="a" style="--char-index:11;">a</span><span class="char" data-char="n" style="--char-index:12;">n</span></span><span class="whitespace"> </span>
+                            <span class="word" data-word="just" style="--word-index:4;"><span class="char" data-char="j" style="--char-index:13;">j</span><span class="char" data-char="u" style="--char-index:14;">u</span><span class="char" data-char="s"
+                                style="--char-index:15;">s</span><span class="char" data-char="t" style="--char-index:16;">t</span></span> <br> <span class="word" data-word="a" style="--word-index:5;"><span class="char" data-char="a" style="--char-index:17;">a</span></span>
+                            <span class="whitespace"> </span>
+                            <span class="word" data-word="digital" style="--word-index:6;"><span class="char" data-char="d" style="--char-index:18;">d</span><span class="char" data-char="i" style="--char-index:19;">i</span><span class="char" data-char="g"
+                                style="--char-index:20;">g</span><span class="char" data-char="i" style="--char-index:21;">i</span><span class="char" data-char="t" style="--char-index:22;">t</span><span class="char" data-char="a" style="--char-index:23;">a</span>
+                            <span class="char" data-char="l" style="--char-index:24;">l</span>
+                            </span><span class="whitespace"> </span><span class="word" data-word="agency." style="--word-index:7;"><span class="char" data-char="a" style="--char-index:25;">a</span>
+                            <span class="char" data-char="g" style="--char-index:26;">g</span><span class="char" data-char="e" style="--char-index:27;">e</span><span class="char" data-char="n" style="--char-index:28;">n</span><span class="char" data-char="c"
+                                style="--char-index:29;">c</span>
+                            <span class="char" data-char="y" style="--char-index:30;">y</span><span class="char" data-char="." style="--char-index:31;">.</span></span>
+                        </h3>
+                        <p class="wow txt words chars splitting animated" data-splitting="" style="visibility: visible; --word-total:32; --char-total:182;"><span class="word" data-word="We" style="--word-index:0;"><span class="char" data-char="W" style="--char-index:0;">W</span><span class="char" data-char="e" style="--char-index:1;">e</span></span><span class="whitespace"> </span>
+                            <span class="word" data-word="are" style="--word-index:1;"><span class="char" data-char="a" style="--char-index:2;">a</span><span class="char" data-char="r" style="--char-index:3;">r</span><span class="char" data-char="e" style="--char-index:4;">e</span></span>
+                            <span class="whitespace"> </span>
+                            <span class="word" data-word="AVO." style="--word-index:2;"><span class="char" data-char="A" style="--char-index:5;">A</span><span class="char" data-char="V" style="--char-index:6;">V</span><span class="char" data-char="O"
+                                style="--char-index:7;">O</span><span class="char" data-char="." style="--char-index:8;">.</span></span><span class="whitespace"> </span><span class="word" data-word="We" style="--word-index:3;"><span class="char" data-char="W" style="--char-index:9;">W</span>
+                            <span class="char" data-char="e" style="--char-index:10;">e</span>
+                            </span><span class="whitespace"> </span><span class="word" data-word="create" style="--word-index:4;"><span class="char" data-char="c" style="--char-index:11;">c</span><span class="char" data-char="r" style="--char-index:12;">r</span>
+                            <span class="char" data-char="e" style="--char-index:13;">e</span><span class="char" data-char="a" style="--char-index:14;">a</span><span class="char" data-char="t" style="--char-index:15;">t</span>
+                            <span class="char" data-char="e" style="--char-index:16;">e</span>
+                            </span><span class="whitespace"> </span><span class="word" data-word="award-winning" style="--word-index:5;"><span class="char" data-char="a" style="--char-index:17;">a</span><span class="char" data-char="w" style="--char-index:18;">w</span>
+                            <span class="char" data-char="a" style="--char-index:19;">a</span><span class="char" data-char="r" style="--char-index:20;">r</span><span class="char" data-char="d" style="--char-index:21;">d</span><span class="char" data-char="-"
+                                style="--char-index:22;">-</span>
+                            <span class="char" data-char="w" style="--char-index:23;">w</span><span class="char" data-char="i" style="--char-index:24;">i</span><span class="char" data-char="n" style="--char-index:25;">n</span><span class="char" data-char="n"
+                                style="--char-index:26;">n</span>
+                            <span class="char" data-char="i" style="--char-index:27;">i</span><span class="char" data-char="n" style="--char-index:28;">n</span><span class="char" data-char="g" style="--char-index:29;">g</span></span>
+                            <span class="whitespace"> </span><span class="word" data-word="websites," style="--word-index:6;"><span class="char" data-char="w" style="--char-index:30;">w</span><span class="char" data-char="e" style="--char-index:31;">e</span>
+                            <span class="char" data-char="b" style="--char-index:32;">b</span>
+                            <span class="char" data-char="s" style="--char-index:33;">s</span><span class="char" data-char="i" style="--char-index:34;">i</span><span class="char" data-char="t" style="--char-index:35;">t</span><span class="char" data-char="e"
+                                style="--char-index:36;">e</span>
+                            <span class="char" data-char="s" style="--char-index:37;">s</span><span class="char" data-char="," style="--char-index:38;">,</span></span><span class="whitespace"> </span><span class="word" data-word="remarkable" style="--word-index:7;"><span class="char" data-char="r" style="--char-index:39;">r</span>
+                            <span class="char" data-char="e" style="--char-index:40;">e</span><span class="char" data-char="m" style="--char-index:41;">m</span><span class="char" data-char="a" style="--char-index:42;">a</span><span class="char" data-char="r"
+                                style="--char-index:43;">r</span>
+                            <span class="char" data-char="k" style="--char-index:44;">k</span><span class="char" data-char="a" style="--char-index:45;">a</span><span class="char" data-char="b" style="--char-index:46;">b</span><span class="char" data-char="l"
+                                style="--char-index:47;">l</span>
+                            <span class="char" data-char="e" style="--char-index:48;">e</span>
+                            </span><span class="whitespace"> </span><span class="word" data-word="brands" style="--word-index:8;"><span class="char" data-char="b" style="--char-index:49;">b</span><span class="char" data-char="r" style="--char-index:50;">r</span>
+                            <span class="char" data-char="a" style="--char-index:51;">a</span><span class="char" data-char="n" style="--char-index:52;">n</span>
+                            <span class="char" data-char="d" style="--char-index:53;">d</span><span class="char" data-char="s" style="--char-index:54;">s</span></span><span class="whitespace"> </span><span class="word" data-word="and" style="--word-index:9;"><span class="char" data-char="a" style="--char-index:55;">a</span>
+                            <span class="char" data-char="n" style="--char-index:56;">n</span><span class="char" data-char="d" style="--char-index:57;">d</span></span><span class="whitespace"> </span><span class="word" data-word="cutting-edge" style="--word-index:10;"><span class="char" data-char="c" style="--char-index:58;">c</span>
+                            <span class="char" data-char="u" style="--char-index:59;">u</span><span class="char" data-char="t" style="--char-index:60;">t</span><span class="char" data-char="t" style="--char-index:61;">t</span>
+                            <span class="char" data-char="i" style="--char-index:62;">i</span><span class="char" data-char="n" style="--char-index:63;">n</span><span class="char" data-char="g" style="--char-index:64;">g</span>
+                            <span class="char" data-char="-" style="--char-index:65;">-</span><span class="char" data-char="e" style="--char-index:66;">e</span><span class="char" data-char="d" style="--char-index:67;">d</span>
+                            <span class="char" data-char="g" style="--char-index:68;">g</span><span class="char" data-char="e" style="--char-index:69;">e</span></span><span class="whitespace"> </span><span class="word" data-word="apps.Nullam" style="--word-index:11;"><span class="char" data-char="a" style="--char-index:70;">a</span>
+                            <span class="char" data-char="p" style="--char-index:71;">p</span>
+                            <span class="char" data-char="p" style="--char-index:72;">p</span><span class="char" data-char="s" style="--char-index:73;">s</span><span class="char" data-char="." style="--char-index:74;">.</span>
+                            <span class="char" data-char="N" style="--char-index:75;">N</span><span class="char" data-char="u" style="--char-index:76;">u</span><span class="char" data-char="l" style="--char-index:77;">l</span>
+                            <span class="char" data-char="l" style="--char-index:78;">l</span><span class="char" data-char="a" style="--char-index:79;">a</span><span class="char" data-char="m" style="--char-index:80;">m</span></span>
+                            <span class="whitespace"> </span>
+                            <span class="word" data-word="imperdiet," style="--word-index:12;"><span class="char" data-char="i" style="--char-index:81;">i</span><span class="char" data-char="m" style="--char-index:82;">m</span>
+                            <span class="char" data-char="p" style="--char-index:83;">p</span><span class="char" data-char="e" style="--char-index:84;">e</span><span class="char" data-char="r" style="--char-index:85;">r</span>
+                            <span class="char" data-char="d" style="--char-index:86;">d</span><span class="char" data-char="i" style="--char-index:87;">i</span><span class="char" data-char="e" style="--char-index:88;">e</span>
+                            <span class="char" data-char="t" style="--char-index:89;">t</span><span class="char" data-char="," style="--char-index:90;">,</span></span><span class="whitespace"> </span>
+                            <span class="word" data-word="sem" style="--word-index:13;"><span class="char" data-char="s" style="--char-index:91;">s</span><span class="char" data-char="e" style="--char-index:92;">e</span>
+                            <span class="char" data-char="m" style="--char-index:93;">m</span>
+                            </span><span class="whitespace"> </span><span class="word" data-word="at" style="--word-index:14;"><span class="char" data-char="a" style="--char-index:94;">a</span>
+                            <span class="char" data-char="t" style="--char-index:95;">t</span>
+                            </span><span class="whitespace"> </span><span class="word" data-word="fringilla" style="--word-index:15;"><span class="char" data-char="f" style="--char-index:96;">f</span>
+                            <span class="char" data-char="r" style="--char-index:97;">r</span><span class="char" data-char="i" style="--char-index:98;">i</span><span class="char" data-char="n" style="--char-index:99;">n</span>
+                            <span class="char" data-char="g" style="--char-index:100;">g</span><span class="char" data-char="i" style="--char-index:101;">i</span><span class="char" data-char="l" style="--char-index:102;">l</span>
+                            <span class="char" data-char="l" style="--char-index:103;">l</span><span class="char" data-char="a" style="--char-index:104;">a</span></span><span class="whitespace"> </span>
+                            <span class="word" data-word="lobortis," style="--word-index:16;"><span class="char" data-char="l" style="--char-index:105;">l</span><span class="char" data-char="o" style="--char-index:106;">o</span><span class="char" data-char="b"
+                                style="--char-index:107;">b</span>
+                            <span class="char" data-char="o" style="--char-index:108;">o</span><span class="char" data-char="r" style="--char-index:109;">r</span><span class="char" data-char="t" style="--char-index:110;">t</span><span class="char" data-char="i"
+                                style="--char-index:111;">i</span><span class="char" data-char="s" style="--char-index:112;">s</span><span class="char" data-char="," style="--char-index:113;">,</span></span>
+                            <span class="whitespace"> </span><span class="word" data-word="sem" style="--word-index:17;"><span class="char" data-char="s" style="--char-index:114;">s</span>
+                            <span class="char" data-char="e" style="--char-index:115;">e</span><span class="char" data-char="m" style="--char-index:116;">m</span></span><span class="whitespace"> </span>
+                            <span class="word" data-word="nibh" style="--word-index:18;"><span class="char" data-char="n" style="--char-index:117;">n</span><span class="char" data-char="i" style="--char-index:118;">i</span><span class="char" data-char="b"
+                                style="--char-index:119;">b</span>
+                            <span class="char" data-char="h" style="--char-index:120;">h</span>
+                            </span><span class="whitespace"> </span><span class="word" data-word="fringilla" style="--word-index:19;"><span class="char" data-char="f" style="--char-index:121;">f</span>
+                            <span class="char" data-char="r" style="--char-index:122;">r</span><span class="char" data-char="i" style="--char-index:123;">i</span><span class="char" data-char="n" style="--char-index:124;">n</span>
+                            <span class="char" data-char="g" style="--char-index:125;">g</span><span class="char" data-char="i" style="--char-index:126;">i</span><span class="char" data-char="l" style="--char-index:127;">l</span>
+                            <span class="char" data-char="l" style="--char-index:128;">l</span><span class="char" data-char="a" style="--char-index:129;">a</span></span><span class="whitespace"> </span>
+                            <span class="word" data-word="nibh," style="--word-index:20;"><span class="char" data-char="n" style="--char-index:130;">n</span><span class="char" data-char="i" style="--char-index:131;">i</span>
+                            <span class="char" data-char="b" style="--char-index:132;">b</span><span class="char" data-char="h" style="--char-index:133;">h</span><span class="char" data-char="," style="--char-index:134;">,</span></span><span class="whitespace"> </span>
+                            <span class="word" data-word="id" style="--word-index:21;"><span class="char" data-char="i" style="--char-index:135;">i</span>
+                            <span class="char" data-char="d" style="--char-index:136;">d</span>
+                            </span><span class="whitespace"> </span><span class="word" data-word="gravida" style="--word-index:22;"><span class="char" data-char="g" style="--char-index:137;">g</span>
+                            <span class="char" data-char="r" style="--char-index:138;">r</span><span class="char" data-char="a" style="--char-index:139;">a</span><span class="char" data-char="v" style="--char-index:140;">v</span><span class="char" data-char="i"
+                                style="--char-index:141;">i</span>
+                            <span class="char" data-char="d" style="--char-index:142;">d</span><span class="char" data-char="a" style="--char-index:143;">a</span></span>
+                            <span class="whitespace"> </span><span class="word" data-word="mi" style="--word-index:23;"><span class="char" data-char="m" style="--char-index:144;">m</span>
+                            <span class="char" data-char="i" style="--char-index:145;">i</span>
+                            </span><span class="whitespace"> </span><span class="word" data-word="purus" style="--word-index:24;"><span class="char" data-char="p" style="--char-index:146;">p</span>
+                            <span class="char" data-char="u" style="--char-index:147;">u</span><span class="char" data-char="r" style="--char-index:148;">r</span>
+                            <span class="char" data-char="u" style="--char-index:149;">u</span><span class="char" data-char="s" style="--char-index:150;">s</span></span>
+                            <span class="whitespace"> </span><span class="word" data-word="sit" style="--word-index:25;"><span class="char" data-char="s" style="--char-index:151;">s</span>
+                            <span class="char" data-char="i" style="--char-index:152;">i</span><span class="char" data-char="t" style="--char-index:153;">t</span></span>
+                            <span class="whitespace"> </span><span class="word" data-word="amet" style="--word-index:26;"><span class="char" data-char="a" style="--char-index:154;">a</span>
+                            <span class="char" data-char="m" style="--char-index:155;">m</span><span class="char" data-char="e" style="--char-index:156;">e</span>
+                            <span class="char" data-char="t" style="--char-index:157;">t</span>
+                            </span><span class="whitespace"> </span><span class="word" data-word="erat." style="--word-index:27;"><span class="char" data-char="e" style="--char-index:158;">e</span>
+                            <span class="char" data-char="r" style="--char-index:159;">r</span><span class="char" data-char="a" style="--char-index:160;">a</span>
+                            <span class="char" data-char="t" style="--char-index:161;">t</span><span class="char" data-char="." style="--char-index:162;">.</span></span>
+                            <span class="whitespace"> </span><span class="word" data-word="Ut" style="--word-index:28;"><span class="char" data-char="U" style="--char-index:163;">U</span>
+                            <span class="char" data-char="t" style="--char-index:164;">t</span>
+                            </span><span class="whitespace"> </span>
+                            <span class="word" data-word="dictum" style="--word-index:29;"><span class="char" data-char="d"
+                                                                                                                                                                                                                                    style="--char-index:165;">d</span>
+                            <span class="char" data-char="i" style="--char-index:166;">i</span><span class="char" data-char="c" style="--char-index:167;">c</span>
+                            <span class="char" data-char="t" style="--char-index:168;">t</span><span class="char" data-char="u" style="--char-index:169;">u</span>
+                            <span class="char" data-char="m" style="--char-index:170;">m</span>
+                            </span><span class="whitespace"> </span>
+                            <span class="word" data-word="nisi" style="--word-index:30;"><span class="char"
+                                                                                                                                                                                                                                                    data-char="n"
+                                                                                                                                                                                                                                                    style="--char-index:171;">n</span>
+                            <span class="char" data-char="i" style="--char-index:172;">i</span>
+                            <span class="char" data-char="s" style="--char-index:173;">s</span>
+                            <span class="char" data-char="i" style="--char-index:174;">i</span>
+                            </span>
+                            <span class="whitespace">
+                                                                                                                                                                                                                                                            </span>
+                            <span class="word" data-word="masvitp" style="--word-index:31;">
+                                                                                                                                                                                                                                                                    <span
+                                                                                                                                                                                                                                                                        class="char"
+                                                                                                                                                                                                                                                                        data-char="m"
+                                                                                                                                                                                                                                                                        style="--char-index:175;">m</span>
+                            <span class="char" data-char="a" style="--char-index:176;">a</span>
+                            <span class="char" data-char="s" style="--char-index:177;">s</span>
+                            <span class="char" data-char="v" style="--char-index:178;">v</span>
+                            <span class="char" data-char="i" style="--char-index:179;">i</span>
+                            <span class="char" data-char="t" style="--char-index:180;">t</span>
+                            <span class="char" data-char="p" style="--char-index:181;">p</span>
+                            </span>
+                        </p>
+                        <div class="ftbox mt-30">
+                            <ul>
+                                <li class="wow fadeIn" data-wow-delay=".3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeIn;">
+                                    <span class="icon pe-7s-gleam"></span>
+                                    <h6 class="custom-font">Pixel <br> Perfect</h6>
+                                    <div class="dots">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </li>
+                                <li class="space wow fadeIn" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeIn;">
+                                    <span class="icon pe-7s-paint-bucket"></span>
+                                    <h6 class="custom-font">Creative <br> Design</h6>
+                                    <div class="dots">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </li>
+                                <li class="wow fadeIn" data-wow-delay=".8s" style="visibility: visible; animation-delay: 0.8s; animation-name: fadeIn;">
+                                    <span class="icon pe-7s-medal"></span>
+                                    <h6 class="custom-font">Heigh <br> Perfomance</h6>
+                                    <div class="dots">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== End about ==================== -->
+
+
+
+    <!-- ==================== Start Services ==================== -->
+
+    <section class="services section-padding sub-bg">
+        <div class="container">
+            <div class="sec-head custom-font tr-head">
+                <h6>Best Features</h6>
+                <h3>Services.</h3>
+                <span class="tbg">Services</span>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 wow fadeInUp" data-wow-delay=".3s">
+                    <div class="step-item xtop">
+                        <span class="icon pe-7s-gleam"></span>
+                        <h6>Digital Marketing</h6>
+                        <p>Tempore corrupti temporibus fuga earum asperiores fugit laudantium.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 wow fadeInUp" data-wow-delay=".6s">
+                    <div class="step-item xcolor">
+                        <span class="icon pe-7s-phone"></span>
+                        <h6>Web & App Development</h6>
+                        <p>Tempore corrupti temporibus fuga earum asperiores fugit laudantium.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 wow fadeInUp" data-wow-delay=".9s">
+                    <div class="step-item xbottom">
+                        <span class="icon pe-7s-magic-wand"></span>
+                        <h6>Graphic Design</h6>
+                        <p>Tempore corrupti temporibus fuga earum asperiores fugit laudantium.</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="about">
+                    <div class="content">
+
+                        <p style="text-align: center;" class="wow txt words chars splitting animated animated opacity-none" data-splitting="" style="visibility: hidden; --word-total:182; --char-total:182;"><span class="word" data-word="We" style="--word-index:0;"><span class="char" data-char="W" style="--char-index:0;"><span class="word" data-word="W" style="--word-index:0;"><span class="char" data-char="W" style="--char-index:0;">W</span></span>
+                            </span><span class="char" data-char="e" style="--char-index:1;"><span class="word" data-word="e" style="--word-index:1;"><span class="char" data-char="e" style="--char-index:1;">e</span></span>
+                            </span>
+                            <span class="word" data-word="We" style="--word-index:0;"><span class="char" data-char="W" style="--char-index:0;"><span class="word" data-word="W" style="--word-index:0;"><span class="char" data-char="W" style="--char-index:0;">W</span></span>
+                            </span><span class="char" data-char="e" style="--char-index:1;"><span class="word" data-word="e" style="--word-index:1;"><span class="char" data-char="e" style="--char-index:1;">e</span></span>
+                            </span>
+                            </span><span class="whitespace"></span><span class="word" data-word="are" style="--word-index:1;"><span class="char" data-char="a" style="--char-index:2;"><span class="word" data-word="a" style="--word-index:2;"><span class="char" data-char="a" style="--char-index:2;">a</span></span>
+                            </span><span class="char" data-char="r" style="--char-index:3;"><span class="word" data-word="r" style="--word-index:3;"><span class="char" data-char="r" style="--char-index:3;">r</span></span>
+                            </span><span class="char" data-char="e" style="--char-index:4;"><span class="word" data-word="e" style="--word-index:4;"><span class="char" data-char="e" style="--char-index:4;">e</span></span>
+                            </span>
+                            </span><span class="whitespace"></span><span class="word" data-word="AVO." style="--word-index:2;"><span class="char" data-char="A" style="--char-index:5;"><span class="word" data-word="A" style="--word-index:5;"><span class="char" data-char="A" style="--char-index:5;">A</span></span>
+                            </span><span class="char" data-char="V" style="--char-index:6;"><span class="word" data-word="V" style="--word-index:6;"><span class="char" data-char="V" style="--char-index:6;">V</span></span>
+                            </span><span class="char" data-char="O" style="--char-index:7;"><span class="word" data-word="O" style="--word-index:7;"><span class="char" data-char="O" style="--char-index:7;">O</span></span>
+                            </span><span class="char" data-char="." style="--char-index:8;"><span class="word" data-word="." style="--word-index:8;"><span class="char" data-char="." style="--char-index:8;">.</span></span>
+                            </span>
+                            </span><span class="whitespace"></span><span class="word" data-word="We" style="--word-index:3;"><span class="char" data-char="W" style="--char-index:9;"><span class="word" data-word="W" style="--word-index:9;"><span class="char" data-char="W" style="--char-index:9;">W</span></span>
+                            </span><span class="char" data-char="e" style="--char-index:10;"><span class="word" data-word="e" style="--word-index:10;"><span class="char" data-char="e" style="--char-index:10;">e</span></span>
+                            </span>
+                            </span><span class="whitespace"></span><span class="word" data-word="create" style="--word-index:4;"><span class="char" data-char="c" style="--char-index:11;"><span class="word" data-word="c" style="--word-index:11;"><span class="char" data-char="c" style="--char-index:11;">c</span></span>
+                            </span><span class="char" data-char="r" style="--char-index:12;"><span class="word" data-word="r" style="--word-index:12;"><span class="char" data-char="r" style="--char-index:12;">r</span></span>
+                            </span><span class="char" data-char="e" style="--char-index:13;"><span class="word" data-word="e" style="--word-index:13;"><span class="char" data-char="e" style="--char-index:13;">e</span></span>
+                            </span><span class="char" data-char="a" style="--char-index:14;"><span class="word" data-word="a" style="--word-index:14;"><span class="char" data-char="a" style="--char-index:14;">a</span></span>
+                            </span><span class="char" data-char="t" style="--char-index:15;"><span class="word" data-word="t" style="--word-index:15;"><span class="char" data-char="t" style="--char-index:15;">t</span></span>
+                            </span><span class="char" data-char="e" style="--char-index:16;"><span class="word" data-word="e" style="--word-index:16;"><span class="char" data-char="e" style="--char-index:16;">e</span></span>
+                            </span>
+                            </span><span class="whitespace"></span><span class="word" data-word="award-winning" style="--word-index:5;"><span class="char" data-char="a" style="--char-index:17;"><span class="word" data-word="a" style="--word-index:17;"><span class="char" data-char="a" style="--char-index:17;">a</span></span>
+                            </span><span class="char" data-char="w" style="--char-index:18;"><span class="word" data-word="w" style="--word-index:18;"><span class="char" data-char="w" style="--char-index:18;">w</span></span>
+                            </span><span class="char" data-char="a" style="--char-index:19;"><span class="word" data-word="a" style="--word-index:19;"><span class="char" data-char="a" style="--char-index:19;">a</span></span>
+                            </span><span class="char" data-char="r" style="--char-index:20;"><span class="word" data-word="r" style="--word-index:20;"><span class="char" data-char="r" style="--char-index:20;">r</span></span>
+                            </span><span class="char" data-char="d" style="--char-index:21;"><span class="word" data-word="d" style="--word-index:21;"><span class="char" data-char="d" style="--char-index:21;">d</span></span>
+                            </span><span class="char" data-char="-" style="--char-index:22;"><span class="word" data-word="-" style="--word-index:22;"><span class="char" data-char="-" style="--char-index:22;">-</span></span>
+                            </span><span class="char" data-char="w" style="--char-index:23;"><span class="word" data-word="w" style="--word-index:23;"><span class="char" data-char="w" style="--char-index:23;">w</span></span>
+                            </span><span class="char" data-char="i" style="--char-index:24;"><span class="word" data-word="i" style="--word-index:24;"><span class="char" data-char="i" style="--char-index:24;">i</span></span>
+                            </span><span class="char" data-char="n" style="--char-index:25;"><span class="word" data-word="n" style="--word-index:25;"><span class="char" data-char="n" style="--char-index:25;">n</span></span>
+                            </span><span class="char" data-char="n" style="--char-index:26;"><span class="word" data-word="n" style="--word-index:26;"><span class="char" data-char="n" style="--char-index:26;">n</span></span>
+                            </span><span class="char" data-char="i" style="--char-index:27;"><span class="word" data-word="i" style="--word-index:27;"><span class="char" data-char="i" style="--char-index:27;">i</span></span>
+                            </span><span class="char" data-char="n" style="--char-index:28;"><span class="word" data-word="n" style="--word-index:28;"><span class="char" data-char="n" style="--char-index:28;">n</span></span>
+                            </span><span class="char" data-char="g" style="--char-index:29;"><span class="word" data-word="g" style="--word-index:29;"><span class="char" data-char="g" style="--char-index:29;">g</span></span>
+                            </span>
+                            </span><span class="whitespace"></span><span class="word" data-word="websites," style="--word-index:6;"><span class="char" data-char="w" style="--char-index:30;"><span class="word" data-word="w" style="--word-index:30;"><span class="char" data-char="w" style="--char-index:30;">w</span></span>
+                            </span><span class="char" data-char="e" style="--char-index:31;"><span class="word" data-word="e" style="--word-index:31;"><span class="char" data-char="e" style="--char-index:31;">e</span></span>
+                            </span><span class="char" data-char="b" style="--char-index:32;"><span class="word" data-word="b" style="--word-index:32;"><span class="char" data-char="b" style="--char-index:32;">b</span></span>
+                            </span><span class="char" data-char="s" style="--char-index:33;"><span class="word" data-word="s" style="--word-index:33;"><span class="char" data-char="s" style="--char-index:33;">s</span></span>
+                            </span><span class="char" data-char="i" style="--char-index:34;"><span class="word" data-word="i" style="--word-index:34;"><span class="char" data-char="i" style="--char-index:34;">i</span></span>
+                            </span><span class="char" data-char="t" style="--char-index:35;"><span class="word" data-word="t" style="--word-index:35;"><span class="char" data-char="t" style="--char-index:35;">t</span></span>
+                            </span><span class="char" data-char="e" style="--char-index:36;"><span class="word" data-word="e" style="--word-index:36;"><span class="char" data-char="e" style="--char-index:36;">e</span></span>
+                            </span><span class="char" data-char="s" style="--char-index:37;"><span class="word" data-word="s" style="--word-index:37;"><span class="char" data-char="s" style="--char-index:37;">s</span></span>
+                            </span><span class="char" data-char="," style="--char-index:38;"><span class="word" data-word="," style="--word-index:38;"><span class="char" data-char="," style="--char-index:38;">,</span></span>
+                            </span>
+                            <span class="whitespace"></span><span class="word" data-word="websites," style="--word-index:6;"><span class="char" data-char="w" style="--char-index:30;"><span class="word" data-word="w" style="--word-index:30;"><span class="char" data-char="w" style="--char-index:30;">w</span></span>
+                            </span><span class="char" data-char="e" style="--char-index:31;"><span class="word" data-word="e" style="--word-index:31;"><span class="char" data-char="e" style="--char-index:31;">e</span></span>
+                            </span><span class="char" data-char="b" style="--char-index:32;"><span class="word" data-word="b" style="--word-index:32;"><span class="char" data-char="b" style="--char-index:32;">b</span></span>
+                            </span><span class="char" data-char="s" style="--char-index:33;"><span class="word" data-word="s" style="--word-index:33;"><span class="char" data-char="s" style="--char-index:33;">s</span></span>
+                            </span><span class="char" data-char="i" style="--char-index:34;"><span class="word" data-word="i" style="--word-index:34;"><span class="char" data-char="i" style="--char-index:34;">i</span></span>
+                            </span><span class="char" data-char="t" style="--char-index:35;"><span class="word" data-word="t" style="--word-index:35;"><span class="char" data-char="t" style="--char-index:35;">t</span></span>
+                            </span><span class="char" data-char="e" style="--char-index:36;"><span class="word" data-word="e" style="--word-index:36;"><span class="char" data-char="e" style="--char-index:36;">e</span></span>
+                            </span><span class="char" data-char="s" style="--char-index:37;"><span class="word" data-word="s" style="--word-index:37;"><span class="char" data-char="s" style="--char-index:37;">s</span></span>
+                            </span><span class="char" data-char="," style="--char-index:38;"><span class="word" data-word="," style="--word-index:38;"><span class="char" data-char="," style="--char-index:38;">,</span></span>
+                            </span>
+                            </span><span class="whitespace"></span><span class="word" data-word="remarkable" style="--word-index:7;"><span class="char" data-char="r" style="--char-index:39;"><span class="word" data-word="r" style="--word-index:39;"><span class="char" data-char="r" style="--char-index:39;">r</span></span>
+                            </span><span class="char" data-char="e" style="--char-index:40;"><span class="word" data-word="e" style="--word-index:40;"><span class="char" data-char="e" style="--char-index:40;">e</span></span>
+                            </span><span class="char" data-char="m" style="--char-index:41;"><span class="word" data-word="m" style="--word-index:41;"><span class="char" data-char="m" style="--char-index:41;">m</span></span>
+                            </span><span class="char" data-char="a" style="--char-index:42;"><span class="word" data-word="a" style="--word-index:42;"><span class="char" data-char="a" style="--char-index:42;">a</span></span>
+                            </span><span class="char" data-char="r" style="--char-index:43;"><span class="word" data-word="r" style="--word-index:43;"><span class="char" data-char="r" style="--char-index:43;">r</span></span>
+                            </span><span class="char" data-char="k" style="--char-index:44;"><span class="word" data-word="k" style="--word-index:44;"><span class="char" data-char="k" style="--char-index:44;">k</span></span>
+                            </span><span class="char" data-char="a" style="--char-index:45;"><span class="word" data-word="a" style="--word-index:45;"><span class="char" data-char="a" style="--char-index:45;">a</span></span>
+                            </span><span class="char" data-char="b" style="--char-index:46;"><span class="word" data-word="b" style="--word-index:46;"><span class="char" data-char="b" style="--char-index:46;">b</span></span>
+                            </span><span class="char" data-char="l" style="--char-index:47;"><span class="word" data-word="l" style="--word-index:47;"><span class="char" data-char="l" style="--char-index:47;">l</span></span>
+                            </span><span class="char" data-char="e" style="--char-index:48;"><span class="word" data-word="e" style="--word-index:48;"><span class="char" data-char="e" style="--char-index:48;">e</span></span>
+                            </span>
+                            </span><span class="whitespace"></span><span class="word" data-word="brands" style="--word-index:8;"><span class="char" data-char="b" style="--char-index:49;"><span class="word" data-word="b" style="--word-index:49;"><span class="char" data-char="b" style="--char-index:49;">b</span></span>
+                            </span><span class="char" data-char="r" style="--char-index:50;"><span class="word" data-word="r" style="--word-index:50;"><span class="char" data-char="r" style="--char-index:50;">r</span></span>
+                            </span><span class="char" data-char="a" style="--char-index:51;"><span class="word" data-word="a" style="--word-index:51;"><span class="char" data-char="a" style="--char-index:51;">a</span></span>
+                            </span><span class="char" data-char="n" style="--char-index:52;"><span class="word" data-word="n" style="--word-index:52;"><span class="char" data-char="n" style="--char-index:52;">n</span></span>
+                            </span><span class="char" data-char="d" style="--char-index:53;"><span class="word" data-word="d" style="--word-index:53;"><span class="char" data-char="d" style="--char-index:53;">d</span></span>
+                            </span><span class="char" data-char="s" style="--char-index:54;"><span class="word" data-word="s" style="--word-index:54;"><span class="char" data-char="s" style="--char-index:54;">s</span></span>
+                            </span>
+                            </span><span class="whitespace"></span><span class="word" data-word="and" style="--word-index:9;"><span class="char" data-char="a" style="--char-index:55;"><span class="word" data-word="a" style="--word-index:55;"><span class="char" data-char="a" style="--char-index:55;">a</span></span>
+                            </span><span class="char" data-char="n" style="--char-index:56;"><span class="word" data-word="n" style="--word-index:56;"><span class="char" data-char="n" style="--char-index:56;">n</span></span>
+                            </span><span class="char" data-char="d" style="--char-index:57;"><span class="word" data-word="d" style="--word-index:57;"><span class="char" data-char="d" style="--char-index:57;">d</span></span>
+                            </span>
+                            </span><span class="whitespace"></span><span class="word" data-word="cutting-edge" style="--word-index:10;"><span class="char" data-char="c" style="--char-index:58;"><span class="word" data-word="c" style="--word-index:58;"><span class="char" data-char="c" style="--char-index:58;">c</span></span>
+                            </span><span class="char" data-char="u" style="--char-index:59;"><span class="word" data-word="u" style="--word-index:59;"><span class="char" data-char="u" style="--char-index:59;">u</span></span>
+                            </span><span class="char" data-char="t" style="--char-index:60;"><span class="word" data-word="t" style="--word-index:60;"><span class="char" data-char="t" style="--char-index:60;">t</span></span>
+                            </span><span class="char" data-char="t" style="--char-index:61;"><span class="word" data-word="t" style="--word-index:61;"><span class="char" data-char="t" style="--char-index:61;">t</span></span>
+                            </span><span class="char" data-char="i" style="--char-index:62;"><span class="word" data-word="i" style="--word-index:62;"><span class="char" data-char="i" style="--char-index:62;">i</span></span>
+                            </span><span class="char" data-char="n" style="--char-index:63;"><span class="word" data-word="n" style="--word-index:63;"><span class="char" data-char="n" style="--char-index:63;">n</span></span>
+                            </span><span class="char" data-char="g" style="--char-index:64;"><span class="word" data-word="g" style="--word-index:64;"><span class="char" data-char="g" style="--char-index:64;">g</span></span>
+                            </span><span class="char" data-char="-" style="--char-index:65;"><span class="word" data-word="-" style="--word-index:65;"><span class="char" data-char="-" style="--char-index:65;">-</span></span>
+                            </span><span class="char" data-char="e" style="--char-index:66;"><span class="word" data-word="e" style="--word-index:66;"><span class="char" data-char="e" style="--char-index:66;">e</span></span>
+                            </span><span class="char" data-char="d" style="--char-index:67;"><span class="word" data-word="d" style="--word-index:67;"><span class="char" data-char="d" style="--char-index:67;">d</span></span>
+                            </span><span class="char" data-char="g" style="--char-index:68;"><span class="word" data-word="g" style="--word-index:68;"><span class="char" data-char="g" style="--char-index:68;">g</span></span>
+                            </span><span class="char" data-char="e" style="--char-index:69;"><span class="word" data-word="e" style="--word-index:69;"><span class="char" data-char="e" style="--char-index:69;">e</span></span>
+                            </span>
+                            </span><span class="whitespace"></span><span class="word" data-word="apps.Nullam" style="--word-index:11;"><span class="char" data-char="a" style="--char-index:70;"><span class="word" data-word="a" style="--word-index:70;"><span class="char" data-char="a" style="--char-index:70;">a</span></span>
+                            </span><span class="char" data-char="p" style="--char-index:71;"><span class="word" data-word="p" style="--word-index:71;"><span class="char" data-char="p" style="--char-index:71;">p</span></span>
+                            </span><span class="char" data-char="p" style="--char-index:72;"><span class="word" data-word="p" style="--word-index:72;"><span class="char" data-char="p" style="--char-index:72;">p</span></span>
+                            </span><span class="char" data-char="s" style="--char-index:73;"><span class="word" data-word="s" style="--word-index:73;"><span class="char" data-char="s" style="--char-index:73;">s</span></span>
+                            </span><span class="char" data-char="." style="--char-index:74;"><span class="word" data-word="." style="--word-index:74;"><span class="char" data-char="." style="--char-index:74;">.</span></span>
+                            </span><span class="char" data-char="N" style="--char-index:75;"><span class="word" data-word="N" style="--word-index:75;"><span class="char" data-char="N" style="--char-index:75;">N</span></span>
+                            </span><span class="char" data-char="u" style="--char-index:76;"><span class="word" data-word="u" style="--word-index:76;"><span class="char" data-char="u" style="--char-index:76;">u</span></span>
+                            </span><span class="char" data-char="l" style="--char-index:77;"><span class="word" data-word="l" style="--word-index:77;"><span class="char" data-char="l" style="--char-index:77;">l</span></span>
+                            </span><span class="char" data-char="l" style="--char-index:78;"><span class="word" data-word="l" style="--word-index:78;"><span class="char" data-char="l" style="--char-index:78;">l</span></span>
+                            </span><span class="char" data-char="a" style="--char-index:79;"><span class="word" data-word="a" style="--word-index:79;"><span class="char" data-char="a" style="--char-index:79;">a</span></span>
+                            </span><span class="char" data-char="m" style="--char-index:80;"><span class="word" data-word="m" style="--word-index:80;"><span class="char" data-char="m" style="--char-index:80;">m</span></span>
+                            </span>
+                            </span><span class="whitespace"></span><span class="word" data-word="imperdiet," style="--word-index:12;"><span class="char" data-char="i" style="--char-index:81;"><span class="word" data-word="i" style="--word-index:81;"><span class="char" data-char="i" style="--char-index:81;">i</span></span>
+                            </span><span class="char" data-char="m" style="--char-index:82;"><span class="word" data-word="m" style="--word-index:82;"><span class="char" data-char="m" style="--char-index:82;">m</span></span>
+                            </span><span class="char" data-char="p" style="--char-index:83;"><span class="word" data-word="p" style="--word-index:83;"><span class="char" data-char="p" style="--char-index:83;">p</span></span>
+                            </span><span class="char" data-char="e" style="--char-index:84;"><span class="word" data-word="e" style="--word-index:84;"><span class="char" data-char="e" style="--char-index:84;">e</span></span>
+                            </span><span class="char" data-char="r" style="--char-index:85;"><span class="word" data-word="r" style="--word-index:85;"><span class="char" data-char="r" style="--char-index:85;">r</span></span>
+                            </span><span class="char" data-char="d" style="--char-index:86;"><span class="word" data-word="d" style="--word-index:86;"><span class="char" data-char="d" style="--char-index:86;">d</span></span>
+                            </span><span class="char" data-char="i" style="--char-index:87;"><span class="word" data-word="i" style="--word-index:87;"><span class="char" data-char="i" style="--char-index:87;">i</span></span>
+                            </span><span class="char" data-char="e" style="--char-index:88;"><span class="word" data-word="e" style="--word-index:88;"><span class="char" data-char="e" style="--char-index:88;">e</span></span>
+                            </span><span class="char" data-char="t" style="--char-index:89;"><span class="word" data-word="t" style="--word-index:89;"><span class="char" data-char="t" style="--char-index:89;">t</span></span>
+                            </span><span class="char" data-char="," style="--char-index:90;"><span class="word" data-word="," style="--word-index:90;"><span class="char" data-char="," style="--char-index:90;">,</span></span>
+                            </span>
+                            </span><span class="whitespace"></span><span class="word" data-word="sem" style="--word-index:13;"><span class="char" data-char="s" style="--char-index:91;"><span class="word" data-word="s" style="--word-index:91;"><span class="char" data-char="s" style="--char-index:91;">s</span></span>
+                            </span><span class="char" data-char="e" style="--char-index:92;"><span class="word" data-word="e" style="--word-index:92;"><span class="char" data-char="e" style="--char-index:92;">e</span></span>
+                            </span><span class="char" data-char="m" style="--char-index:93;"><span class="word" data-word="m" style="--word-index:93;"><span class="char" data-char="m" style="--char-index:93;">m</span></span>
+                            </span>
+                            </span><span class="whitespace"></span><span class="word" data-word="at" style="--word-index:14;"><span class="char" data-char="a" style="--char-index:94;"><span class="word" data-word="a" style="--word-index:94;"><span class="char" data-char="a" style="--char-index:94;">a</span></span>
+                            </span><span class="char" data-char="t" style="--char-index:95;"><span class="word" data-word="t" style="--word-index:95;"><span class="char" data-char="t" style="--char-index:95;">t</span></span>
+                            </span>
+                            </span><span class="whitespace"></span><span class="word" data-word="fringilla" style="--word-index:15;"><span class="char" data-char="f" style="--char-index:96;"><span class="word" data-word="f" style="--word-index:96;"><span class="char" data-char="f" style="--char-index:96;">f</span></span>
+                            </span><span class="char" data-char="r" style="--char-index:97;"><span class="word" data-word="r" style="--word-index:97;"><span class="char" data-char="r" style="--char-index:97;">r</span></span>
+                            </span><span class="char" data-char="i" style="--char-index:98;"><span class="word" data-word="i" style="--word-index:98;"><span class="char" data-char="i" style="--char-index:98;">i</span></span>
+                            </span><span class="char" data-char="n" style="--char-index:99;"><span class="word" data-word="n" style="--word-index:99;"><span class="char" data-char="n" style="--char-index:99;">n</span></span>
+                            </span><span class="char" data-char="g" style="--char-index:100;"><span class="word" data-word="g" style="--word-index:100;"><span class="char" data-char="g" style="--char-index:100;">g</span></span>
+                            </span><span class="char" data-char="i" style="--char-index:101;"><span class="word" data-word="i" style="--word-index:101;"><span class="char" data-char="i" style="--char-index:101;">i</span></span>
+                            </span><span class="char" data-char="l" style="--char-index:102;"><span class="word" data-word="l" style="--word-index:102;"><span class="char" data-char="l" style="--char-index:102;">l</span></span>
+                            </span><span class="char" data-char="l" style="--char-index:103;"><span class="word" data-word="l" style="--word-index:103;"><span class="char" data-char="l" style="--char-index:103;">l</span></span>
+                            </span><span class="char" data-char="a" style="--char-index:104;"><span class="word" data-word="a" style="--word-index:104;"><span class="char" data-char="a" style="--char-index:104;">a</span></span>
+                            </span>
+                            </span><span class="whitespace"></span><span class="word" data-word="lobortis," style="--word-index:16;"><span class="char" data-char="l" style="--char-index:105;"><span class="word" data-word="l" style="--word-index:105;"><span class="char" data-char="l" style="--char-index:105;">l</span></span>
+                            </span><span class="char" data-char="o" style="--char-index:106;"><span class="word" data-word="o" style="--word-index:106;"><span class="char" data-char="o" style="--char-index:106;">o</span></span>
+                            </span><span class="char" data-char="b" style="--char-index:107;"><span class="word" data-word="b" style="--word-index:107;"><span class="char" data-char="b" style="--char-index:107;">b</span></span>
+                            </span><span class="char" data-char="o" style="--char-index:108;"><span class="word" data-word="o" style="--word-index:108;"><span class="char" data-char="o" style="--char-index:108;">o</span></span>
+                            </span><span class="char" data-char="r" style="--char-index:109;"><span class="word" data-word="r" style="--word-index:109;"><span class="char" data-char="r" style="--char-index:109;">r</span></span>
+                            </span><span class="char" data-char="t" style="--char-index:110;"><span class="word" data-word="t" style="--word-index:110;"><span class="char" data-char="t" style="--char-index:110;">t</span></span>
+                            </span><span class="char" data-char="i" style="--char-index:111;"><span class="word" data-word="i" style="--word-index:111;"><span class="char" data-char="i" style="--char-index:111;">i</span></span>
+                            </span><span class="char" data-char="s" style="--char-index:112;"><span class="word" data-word="s" style="--word-index:112;"><span class="char" data-char="s" style="--char-index:112;">s</span></span>
+                            </span><span class="char" data-char="," style="--char-index:113;"><span class="word" data-word="," style="--word-index:113;"><span class="char" data-char="," style="--char-index:113;">,</span></span>
+                            </span>
+                            </span><span class="whitespace"></span><span class="word" data-word="sem" style="--word-index:17;"><span class="char" data-char="s" style="--char-index:114;"><span class="word" data-word="s" style="--word-index:114;"><span class="char" data-char="s" style="--char-index:114;">s</span></span>
+                            </span><span class="char" data-char="e" style="--char-index:115;"><span class="word" data-word="e" style="--word-index:115;"><span class="char" data-char="e" style="--char-index:115;">e</span></span>
+                            </span><span class="char" data-char="m" style="--char-index:116;"><span class="word" data-word="m" style="--word-index:116;"><span class="char" data-char="m" style="--char-index:116;">m</span></span>
+                            </span>
+                            </span><span class="whitespace"></span><span class="word" data-word="nibh" style="--word-index:18;"><span class="char" data-char="n" style="--char-index:117;"><span class="word" data-word="n" style="--word-index:117;"><span class="char" data-char="n" style="--char-index:117;">n</span></span>
+                            </span><span class="char" data-char="i" style="--char-index:118;"><span class="word" data-word="i" style="--word-index:118;"><span class="char" data-char="i" style="--char-index:118;">i</span></span>
+                            </span><span class="char" data-char="b" style="--char-index:119;"><span class="word" data-word="b" style="--word-index:119;"><span class="char" data-char="b" style="--char-index:119;">b</span></span>
+                            </span><span class="char" data-char="h" style="--char-index:120;"><span class="word" data-word="h" style="--word-index:120;"><span class="char" data-char="h" style="--char-index:120;">h</span></span>
+                            </span>
+                            </span><span class="whitespace"></span><span class="word" data-word="fringilla" style="--word-index:19;"><span class="char" data-char="f" style="--char-index:121;"><span class="word" data-word="f" style="--word-index:121;"><span class="char" data-char="f" style="--char-index:121;">f</span></span>
+                            </span><span class="char" data-char="r" style="--char-index:122;"><span class="word" data-word="r" style="--word-index:122;"><span class="char" data-char="r" style="--char-index:122;">r</span></span>
+                            </span><span class="char" data-char="i" style="--char-index:123;"><span class="word" data-word="i" style="--word-index:123;"><span class="char" data-char="i" style="--char-index:123;">i</span></span>
+                            </span><span class="char" data-char="n" style="--char-index:124;"><span class="word" data-word="n" style="--word-index:124;"><span class="char" data-char="n" style="--char-index:124;">n</span></span>
+                            </span><span class="char" data-char="g" style="--char-index:125;"><span class="word" data-word="g" style="--word-index:125;"><span class="char" data-char="g" style="--char-index:125;">g</span></span>
+                            </span><span class="char" data-char="i" style="--char-index:126;"><span class="word" data-word="i" style="--word-index:126;"><span class="char" data-char="i" style="--char-index:126;">i</span></span>
+                            </span><span class="char" data-char="l" style="--char-index:127;"><span class="word" data-word="l" style="--word-index:127;"><span class="char" data-char="l" style="--char-index:127;">l</span></span>
+                            </span><span class="char" data-char="l" style="--char-index:128;"><span class="word" data-word="l" style="--word-index:128;"><span class="char" data-char="l" style="--char-index:128;">l</span></span>
+                            </span><span class="char" data-char="a" style="--char-index:129;"><span class="word" data-word="a" style="--word-index:129;"><span class="char" data-char="a" style="--char-index:129;">a</span></span>
+                            </span>
+                            </span><span class="whitespace"></span><span class="word" data-word="nibh," style="--word-index:20;"><span class="char" data-char="n" style="--char-index:130;"><span class="word" data-word="n" style="--word-index:130;"><span class="char" data-char="n" style="--char-index:130;">n</span></span>
+                            </span><span class="char" data-char="i" style="--char-index:131;"><span class="word" data-word="i" style="--word-index:131;"><span class="char" data-char="i" style="--char-index:131;">i</span></span>
+                            </span><span class="char" data-char="b" style="--char-index:132;"><span class="word" data-word="b" style="--word-index:132;"><span class="char" data-char="b" style="--char-index:132;">b</span></span>
+                            </span><span class="char" data-char="h" style="--char-index:133;"><span class="word" data-word="h" style="--word-index:133;"><span class="char" data-char="h" style="--char-index:133;">h</span></span>
+                            </span><span class="char" data-char="," style="--char-index:134;"><span class="word" data-word="," style="--word-index:134;"><span class="char" data-char="," style="--char-index:134;">,</span></span>
+                            </span>
+                            </span>
+                        </p>
+                        <div class="ftbox mt-30">
+                            <ul>
+                                <li class="wow fadeIn" data-wow-delay=".3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeIn;">
+                                    <span class="icon pe-7s-gleam"></span>
+                                    <h6 class="custom-font">Pixel <br> Perfect</h6>
+                                    <div class="dots">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </li>
+                                <li class="space wow fadeIn" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeIn;">
+                                    <span class="icon pe-7s-paint-bucket"></span>
+                                    <h6 class="custom-font">Creative <br> Design</h6>
+                                    <div class="dots">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </li>
+                                <li class="space wow fadeIn" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeIn;">
+                                    <span class="icon pe-7s-paint-bucket"></span>
+                                    <h6 class="custom-font">Creative <br> Design</h6>
+                                    <div class="dots">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </li>
+                                <li class="space wow fadeIn" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeIn;">
+                                    <span class="icon pe-7s-paint-bucket"></span>
+                                    <h6 class="custom-font">Creative <br> Design</h6>
+                                    <div class="dots">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </li>
+                                <li class="wow fadeIn" data-wow-delay=".8s" style="visibility: visible; animation-delay: 0.8s; animation-name: fadeIn;">
+                                    <span class="icon pe-7s-medal"></span>
+                                    <h6 class="custom-font">Heigh <br> Perfomance</h6>
+                                    <div class="dots">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ==================== End Services ==================== -->
+
+
+
+    <!-- ==================== Start block-sec ==================== -->
+
+    <section class="block-sec">
+        <div class="background bg-img section-padding pb-0" data-background="img/pattern.png">
+            <div class="container">
+                <div class="number-sec">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="item no-bord">
+                                <span class="icon pe-7s-smile"></span>
+                                <h3 class="custom-font"><span class="count">2400</span></h3>
+                                <p class="wow txt" data-splitting>Happy Clients</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="item">
+                                <span class="icon pe-7s-portfolio"></span>
+                                <h3 class="custom-font"><span class="count">133</span></h3>
+                                <p class="wow txt" data-splitting>Compleate Projects</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="item">
+                                <span class="icon pe-7s-cloud-download"></span>
+                                <h3 class="custom-font"><span class="count">254</span> k</h3>
+                                <p class="wow txt" data-splitting>Files Downloaded</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="item">
+                                <span class="icon pe-7s-medal"></span>
+                                <h3 class="custom-font"><span class="count">46</span></h3>
+                                <p class="wow txt" data-splitting>Award Win</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="min-area sub-bg section-padding-2">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="img">
+                                <div class="simpleParallax" style="overflow: hidden;"><img class="thumparallax-down" src="img/min-area.jpg" alt="" style="transform: translate3d(0px, -30px, 0px) scale(1.1); will-change: transform; transition: transform 1s cubic-bezier(0, 0, 0, 1) 0s;"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 valign">
+                            <div class="content">
+                                <h4 class="wow custom-font words chars splitting animated" data-splitting="" style="--word-total:2; --char-total:8; visibility: visible;"><span class="word" data-word="About" style="--word-index:0;"><span class="char" data-char="A" style="--char-index:0;">A</span><span class="char" data-char="b" style="--char-index:1;">b</span><span class="char" data-char="o"
+                                        style="--char-index:2;">o</span><span class="char" data-char="u" style="--char-index:3;">u</span><span class="char" data-char="t" style="--char-index:4;">t</span></span><span class="whitespace"> </span><span class="word"
+                                        data-word="us." style="--word-index:1;"><span class="char" data-char="u" style="--char-index:5;">u</span><span class="char" data-char="s" style="--char-index:6;">s</span><span class="char" data-char="." style="--char-index:7;">.</span></span>
+                                </h4>
+                                <p class="wow txt words chars splitting animated" data-splitting="" style="--word-total:21; --char-total:101; visibility: visible;"><span class="word" data-word="Our" style="--word-index:0;"><span class="char" data-char="O" style="--char-index:0;">O</span><span class="char" data-char="u" style="--char-index:1;">u</span><span class="char" data-char="r"
+                                        style="--char-index:2;">r</span></span><span class="whitespace"> </span><span class="word" data-word="creative" style="--word-index:1;"><span class="char" data-char="c" style="--char-index:3;">c</span><span class="char"
+                                        data-char="r" style="--char-index:4;">r</span><span class="char" data-char="e" style="--char-index:5;">e</span><span class="char" data-char="a" style="--char-index:6;">a</span><span class="char" data-char="t" style="--char-index:7;">t</span>
+                                    <span class="char" data-char="i" style="--char-index:8;">i</span><span class="char" data-char="v" style="--char-index:9;">v</span><span class="char" data-char="e" style="--char-index:10;">e</span></span><span class="whitespace"> </span>
+                                    <span class="word" data-word="Ad" style="--word-index:2;"><span class="char" data-char="A" style="--char-index:11;">A</span>
+                                    <span class="char" data-char="d" style="--char-index:12;">d</span>
+                                    </span><span class="whitespace"> </span><span class="word" data-word="agency" style="--word-index:3;"><span class="char" data-char="a" style="--char-index:13;">a</span><span class="char" data-char="g" style="--char-index:14;">g</span>
+                                    <span class="char" data-char="e" style="--char-index:15;">e</span><span class="char" data-char="n" style="--char-index:16;">n</span><span class="char" data-char="c" style="--char-index:17;">c</span><span class="char"
+                                        data-char="y" style="--char-index:18;">y</span></span>
+                                    <span class="whitespace"> </span><span class="word" data-word="is" style="--word-index:4;"><span class="char" data-char="i" style="--char-index:19;">i</span><span class="char" data-char="s" style="--char-index:20;">s</span></span>
+                                    <span class="whitespace"> </span><span class="word" data-word="ranked" style="--word-index:5;"><span class="char" data-char="r" style="--char-index:21;">r</span><span class="char" data-char="a" style="--char-index:22;">a</span>
+                                    <span class="char" data-char="n" style="--char-index:23;">n</span><span class="char" data-char="k" style="--char-index:24;">k</span><span class="char" data-char="e" style="--char-index:25;">e</span><span class="char"
+                                        data-char="d" style="--char-index:26;">d</span></span>
+                                    <span class="whitespace"> </span><span class="word" data-word="among" style="--word-index:6;"><span class="char" data-char="a" style="--char-index:27;">a</span><span class="char" data-char="m" style="--char-index:28;">m</span>
+                                    <span class="char" data-char="o" style="--char-index:29;">o</span><span class="char" data-char="n" style="--char-index:30;">n</span><span class="char" data-char="g" style="--char-index:31;">g</span></span>
+                                    <span class="whitespace"> </span><span class="word" data-word="the" style="--word-index:7;"><span class="char" data-char="t" style="--char-index:32;">t</span><span class="char" data-char="h" style="--char-index:33;">h</span>
+                                    <span class="char" data-char="e" style="--char-index:34;">e</span>
+                                    </span><span class="whitespace"> </span><span class="word" data-word="finest" style="--word-index:8;"><span class="char" data-char="f" style="--char-index:35;">f</span>
+                                    <span class="char" data-char="i" style="--char-index:36;">i</span><span class="char" data-char="n" style="--char-index:37;">n</span><span class="char" data-char="e" style="--char-index:38;">e</span><span class="char"
+                                        data-char="s" style="--char-index:39;">s</span>
+                                    <span class="char" data-char="t" style="--char-index:40;">t</span>
+                                    </span><span class="whitespace"> </span><span class="word" data-word="in" style="--word-index:9;"><span class="char" data-char="i" style="--char-index:41;">i</span><span class="char" data-char="n" style="--char-index:42;">n</span></span>
+                                    <span class="whitespace"> </span><span class="word" data-word="the" style="--word-index:10;"><span class="char" data-char="t" style="--char-index:43;">t</span>
+                                    <span class="char" data-char="h" style="--char-index:44;">h</span><span class="char" data-char="e" style="--char-index:45;">e</span></span><span class="whitespace"> </span><span class="word" data-word="US." style="--word-index:11;"><span class="char" data-char="U" style="--char-index:46;">U</span>
+                                    <span class="char" data-char="S" style="--char-index:47;">S</span><span class="char" data-char="." style="--char-index:48;">.</span></span><span class="whitespace"> </span><span class="word" data-word="We" style="--word-index:12;"><span class="char" data-char="W" style="--char-index:49;">W</span>
+                                    <span class="char" data-char="e" style="--char-index:50;">e</span>
+                                    </span><span class="whitespace"> </span><span class="word" data-word="cultivate" style="--word-index:13;"><span class="char" data-char="c" style="--char-index:51;">c</span>
+                                    <span class="char" data-char="u" style="--char-index:52;">u</span><span class="char" data-char="l" style="--char-index:53;">l</span><span class="char" data-char="t" style="--char-index:54;">t</span>
+                                    <span class="char" data-char="i" style="--char-index:55;">i</span><span class="char" data-char="v" style="--char-index:56;">v</span><span class="char" data-char="a" style="--char-index:57;">a</span>
+                                    <span class="char" data-char="t" style="--char-index:58;">t</span><span class="char" data-char="e" style="--char-index:59;">e</span></span><span class="whitespace"> </span><span class="word" data-word="smart" style="--word-index:14;"><span class="char" data-char="s" style="--char-index:60;">s</span>
+                                    <span class="char" data-char="m" style="--char-index:61;">m</span><span class="char" data-char="a" style="--char-index:62;">a</span><span class="char" data-char="r" style="--char-index:63;">r</span>
+                                    <span class="char" data-char="t" style="--char-index:64;">t</span>
+                                    </span><span class="whitespace"> </span><span class="word" data-word="ideas" style="--word-index:15;"><span class="char" data-char="i" style="--char-index:65;">i</span>
+                                    <span class="char" data-char="d" style="--char-index:66;">d</span><span class="char" data-char="e" style="--char-index:67;">e</span><span class="char" data-char="a" style="--char-index:68;">a</span>
+                                    <span class="char" data-char="s" style="--char-index:69;">s</span>
+                                    </span><span class="whitespace"> </span><span class="word" data-word="for" style="--word-index:16;"><span class="char" data-char="f" style="--char-index:70;">f</span>
+                                    <span class="char" data-char="o" style="--char-index:71;">o</span><span class="char" data-char="r" style="--char-index:72;">r</span></span><span class="whitespace"> </span><span class="word" data-word="start-ups" style="--word-index:17;"><span class="char" data-char="s" style="--char-index:73;">s</span>
+                                    <span class="char" data-char="t" style="--char-index:74;">t</span>
+                                    <span class="char" data-char="a" style="--char-index:75;">a</span><span class="char" data-char="r" style="--char-index:76;">r</span><span class="char" data-char="t" style="--char-index:77;">t</span>
+                                    <span class="char" data-char="-" style="--char-index:78;">-</span><span class="char" data-char="u" style="--char-index:79;">u</span><span class="char" data-char="p" style="--char-index:80;">p</span>
+                                    <span class="char" data-char="s" style="--char-index:81;">s</span>
+                                    </span><span class="whitespace"> </span><span class="word" data-word="and" style="--word-index:18;"><span class="char" data-char="a" style="--char-index:82;">a</span>
+                                    <span class="char" data-char="n" style="--char-index:83;">n</span><span class="char" data-char="d" style="--char-index:84;">d</span></span><span class="whitespace"> </span><span class="word" data-word="seasoned" style="--word-index:19;"><span class="char" data-char="s" style="--char-index:85;">s</span>
+                                    <span class="char" data-char="e" style="--char-index:86;">e</span><span class="char" data-char="a" style="--char-index:87;">a</span>
+                                    <span class="char" data-char="s" style="--char-index:88;">s</span><span class="char" data-char="o" style="--char-index:89;">o</span><span class="char" data-char="n" style="--char-index:90;">n</span><span class="char"
+                                        data-char="e" style="--char-index:91;">e</span>
+                                    <span class="char" data-char="d" style="--char-index:92;">d</span>
+                                    </span>
+                                    <span class="whitespace"> </span><span class="word" data-word="players." style="--word-index:20;"><span class="char" data-char="p" style="--char-index:93;">p</span><span class="char" data-char="l" style="--char-index:94;">l</span>
+                                    <span class="char" data-char="a" style="--char-index:95;">a</span><span class="char" data-char="y" style="--char-index:96;">y</span><span class="char" data-char="e" style="--char-index:97;">e</span>
+                                    <span class="char" data-char="r" style="--char-index:98;">r</span><span class="char" data-char="s" style="--char-index:99;">s</span><span class="char" data-char="." style="--char-index:100;">.</span></span>
+                                </p>
+                                <ul class="feat">
+                                    <li class="wow fadeInUp" data-wow-delay=".2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+                                        <h6><span>1</span> Our Mission</h6>
+                                        <p>luctus massa ipsum at tempus eleifend congue lectus bibendum</p>
+                                    </li>
+                                    <li class="wow fadeInUp" data-wow-delay=".4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">
+                                        <h6><span>2</span> Our Goals</h6>
+                                        <p>luctus massa ipsum at tempus eleifend congue lectus bibendum</p>
+                                    </li>
+                                    <li class="wow fadeInUp" data-wow-delay=".6s" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;">
+                                        <h6><span>3</span> Why Us? </h6>
+                                        <p>luctus massa ipsum at tempus eleifend congue lectus bibendum</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="showreel">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-9">
+                            <div class="video-box">
+                                <div class="tit-text">
+                                    <h3 class="wow" data-splitting>Showreel</h3>
+                                </div>
+                                <div class="wow imago">
+                                    <div class="img">
+                                        <img src="img/vid.jpg" alt="">
+                                    </div>
+                                    <div class="vid-icon">
+                                        <a class="vid" href="https://vimeo.com/127203262">
+                                            <div class="vid-butn">
+                                                <span class="icon">
+                                                    <i class="fas fa-play"></i>
+                                                </span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== End block-sec ==================== -->
+
+
+
+    <!-- ==================== Start Works ==================== -->
+
+    <section class="work-carousel section-padding caroul sub-bg position-re">
+        <div class="container-fluid mt-100">
+            <div class="sec-head custom-font text-center">
+                <h6 class="wow fadeIn" data-wow-delay=".5s">Portfolio</h6>
+                <h3 class="wow" data-splitting>Our Works.</h3>
+                <span class="tbg">Portfolio</span>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 no-padding">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="content wow fadeInUp" data-wow-delay=".3s">
+                                    <div class="item-img bg-img wow imago" data-background="img/portfolio/curs/1.jpg">
+                                    </div>
+                                    <div class="cont bgbox">
+                                        <h6><a href="#0">art & illustration</a></h6>
+                                        <h4><a href="project-details.html">Innovation and Crafts.</a></h4>
+                                        <a href="project-details2.html">
+                                            <span class="icon"><i class="fas fa-plus"></i></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="content wow fadeInUp" data-wow-delay=".3s">
+                                    <div class="item-img bg-img wow imago" data-background="img/portfolio/curs/2.jpg">
+                                    </div>
+                                    <div class="cont bgbox">
+                                        <h6><a href="#0">art & illustration</a></h6>
+                                        <h4><a href="project-details.html">Inspiring new space.</a></h4>
+                                        <a href="project-details2.html">
+                                            <span class="icon"><i class="fas fa-plus"></i></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="content wow fadeInUp" data-wow-delay=".3s">
+                                    <div class="item-img bg-img wow imago" data-background="img/portfolio/curs/3.jpg">
+                                    </div>
+                                    <div class="cont bgbox">
+                                        <h6><a href="#0">art & illustration</a></h6>
+                                        <h4><a href="project-details.html">Natural plus modern.</a></h4>
+                                        <a href="project-details2.html">
+                                            <span class="icon"><i class="fas fa-plus"></i></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="content wow fadeInUp" data-wow-delay=".3s">
+                                    <div class="item-img bg-img wow imago" data-background="img/portfolio/curs/4.jpg">
+                                    </div>
+                                    <div class="cont bgbox">
+                                        <h6><a href="#0">art & illustration</a></h6>
+                                        <h4><a href="project-details.html">Innovation and Crafts.</a></h4>
+                                        <a href="project-details2.html">
+                                            <span class="icon"><i class="fas fa-plus"></i></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="content wow fadeInUp" data-wow-delay=".3s">
+                                    <div class="item-img bg-img wow imago" data-background="img/portfolio/curs/5.jpg">
+                                    </div>
+                                    <div class="cont bgbox">
+                                        <h6><a href="#0">art & illustration</a></h6>
+                                        <h4><a href="project-details.html">Inspiring new space.</a></h4>
+                                        <a href="project-details2.html">
+                                            <span class="icon"><i class="fas fa-plus"></i></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- slider setting -->
+                        <div class="swiper-button-next swiper-nav-ctrl next-ctrl cursor-pointer">
+                            <i class="ion-ios-arrow-right"></i>
+                        </div>
+                        <div class="swiper-button-prev swiper-nav-ctrl prev-ctrl cursor-pointer">
+                            <i class="ion-ios-arrow-left"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== End Works ==================== -->
+
+
+
+    <!-- ==================== Start Footer ==================== -->
+
+    <footer class="footer-half sub-bg section-padding pb-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="cont">
+                        <div class="logo">
+                            <a href="#0">
+                                <img src="img/logo-light.png" alt="">
+                            </a>
+                        </div>
+                        <div class="con-info custom-font">
+                            <ul>
+                                <li><span>Email : </span> Avo_support@website.com</li>
+                                <li><span>Address : </span> A32 , Ave 15th Street, Door 211, San Franciso, USA 32490.
+                                </li>
+                                <li><span>Phone : </span> (+1) 2345 678 44 88</li>
+                            </ul>
+                        </div>
+                        <div class="social-icon">
+                            <h6 class="custom-font stit simple-btn">Follow Us</h6>
+                            <div class="social">
+                                <a href="#0" class="icon">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#0" class="icon">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#0" class="icon">
+                                    <i class="fab fa-pinterest"></i>
+                                </a>
+                                <a href="#0" class="icon">
+                                    <i class="fab fa-behance"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 offset-lg-2">
+                    <div class="subscribe mb-50">
+                        <h6 class="custom-font stit simple-btn">Newslatter</h6>
+                        <p>Sign up for subscribe out newsletter!</p>
+                        <form>
+                            <div class="form-group custom-font">
+                                <input type="email" name="subscribe" placeholder="Your Email">
+                                <button class="cursor-pointer">Subscribe</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="insta">
+                        <h6 class="custom-font stit simple-btn">Instagram Post</h6>
+                        <div class="insta-gallary">
+                            <a href="#0">
+                                <img src="img/insta/1.jpg" alt="">
+                            </a>
+                            <a href="#0">
+                                <img src="img/insta/2.jpg" alt="">
+                            </a>
+                            <a href="#0">
+                                <img src="img/insta/3.jpg" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyrights text-center">
+                <p>© 2020, Avo Template. Made with passion by <a href="#0">UI-ThemeZ</a>.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== End Footer ==================== -->
+
+
+
+
+
+
+    <!-- jQuery -->
+    <script src="js/jquery-3.0.0.min.js"></script>
+    <script src="js/jquery-migrate-3.0.0.min.js"></script>
+
+    <!-- plugins -->
+    <script src="js/plugins.js"></script>
+
+    <!-- custom scripts -->
+    <script src="js/scripts.js"></script>
+
 </body>
 
 </html>
