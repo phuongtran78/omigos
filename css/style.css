@@ -242,7 +242,7 @@ span:hover {
 }
 
 .section-padding-2 {
-    padding: 100px 0;
+    padding: 60px 0;
     background: #fff !important;
 }
 
@@ -955,6 +955,10 @@ span:hover {
 
 .opacity-none {
     opacity: 0;
+}
+
+.size-partner {
+    font-size: 18px;
 }
 
 
@@ -4147,7 +4151,7 @@ body {
     -webkit-transition: all .4s;
     -o-transition: all .4s;
     transition: all .4s;
-    max-width: 75px;
+    max-width: 120px;
     margin: auto;
 }
 
