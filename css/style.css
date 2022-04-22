@@ -125,7 +125,7 @@ h6 {
 }
 
 p {
-    color: #777;
+    color: #333;
     font-size: 15px;
     font-weight: 300;
     line-height: 2;
@@ -961,6 +961,15 @@ span:hover {
     font-size: 18px;
 }
 
+.text-center {
+    text-align: center;
+}
+
+.bold-text {
+    font-weight: bold;
+    font-size: 17px;
+}
+
 
 /* ====================== [ End Custome Code ] ====================== */
 
@@ -1449,7 +1458,7 @@ body {
 }
 
 .sec-head h3 {
-    font-size: 80px;
+    font-size: 60px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 4px;
@@ -1738,9 +1747,9 @@ body {
 }
 
 .navbar .navbar-nav .nav-link {
-    font-size: 16px;
-    word-spacing: 0.2rem;
-    font-weight: 500;
+    font-size: 1.1rem;
+    word-spacing: 0.25rem;
+    font-weight: 600;
     color: #fff;
     padding: 15px 7px;
     margin: 10px 15px;
@@ -1870,7 +1879,9 @@ body {
 }
 
 .navbar .logo {
-    width: 50px;
+    width: 200px;
+    position: absolute;
+    left: 20px;
 }
 
 .navbar.light .navbar-nav .nav-link {
@@ -5359,7 +5370,7 @@ body {
 }
 
 .block-sec .showreel .video-box {
-    margin-top: 200px;
+    margin-top: 150px;
     position: relative;
     margin-bottom: -100px;
     z-index: 2;
@@ -5407,12 +5418,13 @@ body {
     height: 140px;
     line-height: 140px;
     text-align: center;
-    font-size: 20px;
+    font-size: 30px;
+    color: #bb0000;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.15);
-    border: 1px solid #fff;
+    border: 2px solid #bb0000;
     position: absolute;
-    top: calc(50% - 70px);
+    top: calc(50% - 0px);
     left: calc(50% - 70px);
     z-index: 4;
 }
