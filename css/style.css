@@ -970,6 +970,21 @@ span:hover {
     font-size: 17px;
 }
 
+.moretext,
+.moretext2,
+.moretext3,
+.moretext4 {
+    display: none;
+}
+
+.moreless-button,
+.moreless-button2,
+.moreless-button3,
+.moreless-button4 {
+    padding-top: 15px;
+    font-weight: 700;
+}
+
 
 /* ====================== [ End Custome Code ] ====================== */
 
@@ -3002,9 +3017,10 @@ body {
 }
 
 .slider-bus .caption h1 {
-    font-size: 90px;
+    font-size: 60px;
     font-weight: 800;
-    letter-spacing: 4px;
+    letter-spacing: 1px;
+    word-spacing: 15px;
     color: #fff;
     opacity: 0;
     visibility: hidden;
@@ -3980,28 +3996,33 @@ body {
 
 .services .step-item {
     text-align: center;
-    padding: 60px;
+    padding: 30px;
     margin: 60px auto;
     background: #efefef;
     position: relative;
 }
 
+.services .step-item.xbottom-2 {
+    bottom: -100px;
+}
+
 .services .step-item.xbottom {
-    bottom: -60px;
+    bottom: -50px;
 }
 
 .services .step-item.xtop {
-    top: -60px;
+    top: -50px;
 }
 
 .services .step-item.xcolor {
-    background: #75dab4;
+    /* background: #75dab4; */
     color: #11141b;
 }
 
-.services .step-item.xcolor .icon {
+
+/* .services .step-item.xcolor .icon {
     color: #11141b !important;
-}
+} */
 
 .services .step-item.xcolor p {
     color: #333;
@@ -4009,7 +4030,7 @@ body {
 
 .services .step-item .icon {
     color: #75dab4;
-    font-size: 40px;
+    font-size: 50px;
     margin-bottom: 30px;
 }
 
