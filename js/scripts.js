@@ -322,7 +322,7 @@ $(function() {
     var swiperBusContent = new Swiper('.slider-bus .swiper-content', {
         slidesPerView: 1,
         spaceBetween: 30,
-        speed: 1000,
+        speed: 800,
         loop: true,
         autoplay: {
             delay: 2500,

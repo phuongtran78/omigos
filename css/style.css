@@ -1695,7 +1695,7 @@
     .navbar .navbar-nav .nav-link {
         font-size: 1.1rem;
         word-spacing: 0.25rem;
-        font-weight: 600;
+        font-weight: 300;
         color: #fff;
         padding: 15px 7px;
         margin: 10px 15px;
@@ -1709,7 +1709,7 @@
     }
     
     .navbar .navbar-nav .dropdown-item {
-        font-size: 13px;
+        font-size: 1rem;
         padding: 10px 20px;
         opacity: .9;
     }
