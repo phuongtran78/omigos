@@ -948,6 +948,10 @@
         padding-top: 15px;
         font-weight: 700;
     }
+    
+    .tr-head {
+        padding-bottom: 40px;
+    }
     /* ====================== [ End Custome Code ] ====================== */
     /* ====================== [ Start Preloader ] ====================== */
     
@@ -1412,7 +1416,7 @@
     }
     
     .sec-head h3 {
-        font-size: 60px;
+        font-size: 50px;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 4px;
@@ -1425,11 +1429,12 @@
         left: 0;
         width: 100%;
         text-align: center;
-        font-size: 10vw;
+        font-size: 9vw;
         font-weight: 700;
         color: transparent;
-        -webkit-text-stroke: 1px rgba(0, 0, 0, 0.2);
+        -webkit-text-stroke: 1px #75dab4;
         opacity: .3;
+        padding-bottom: 60px;
     }
     
     .sec-head.tr-head {
@@ -1829,7 +1834,8 @@
         position: absolute;
         left: 20px;
     }
-    .navbar-toggler{
+    
+    .navbar-toggler {
         font-size: 1.8rem !important;
     }
     
@@ -3915,9 +3921,17 @@
     .services .step-item {
         text-align: center;
         padding: 30px;
-        margin: 60px auto;
+        margin: 45px auto;
         background: #efefef;
         position: relative;
+    }
+    
+    .services .step-item-2 {
+        text-align: center;
+        padding: 30px;
+        background: #efefef;
+        position: relative;
+        margin-bottom: 20px;
     }
     
     .services .step-item.xbottom-2 {
@@ -3945,6 +3959,12 @@
     }
     
     .services .step-item .icon {
+        color: #75dab4;
+        font-size: 50px;
+        margin-bottom: 30px;
+    }
+    
+    .services .step-item-2 .icon {
         color: #75dab4;
         font-size: 50px;
         margin-bottom: 30px;
@@ -4887,7 +4907,7 @@
     }
     
     .team .team-container {
-        width: 140%;
+        width: 150%;
         position: relative;
     }
     
@@ -4896,8 +4916,7 @@
         position: absolute;
         top: -120px;
         bottom: -120px;
-        right: 0;
-        width: 80%;
+        width: 100%;
         background: #efefef;
         z-index: -1;
     }
@@ -6329,6 +6348,9 @@
     /* ====================== [ Start Responsive ] ====================== */
     
     @media screen and (max-width: 991px) {
+        .team .team-container {
+            width: 105%;
+        }
         .bg-img {
             background-position: center !important;
         }
@@ -6591,7 +6613,10 @@
     }
     
     @media screen and (max-width: 767px) {
-        .about .container .row .col-lg-5{
+        /* .team .team-container {
+            width: 105%;
+        } */
+        .about .container .row .col-lg-5 {
             display: none
         }
         .about .ftbox ul li {
@@ -6679,7 +6704,7 @@
             left: 0px;
             position: inherit !important;
         }
-        .navbar-toggler{
+        .navbar-toggler {
             font-size: 2rem;
         }
         .hamenu .menu-links .main-menu>li {
@@ -6820,6 +6845,9 @@
     }
     
     @media screen and (max-width: 480px) {
+        .team .team-container {
+            width: 100%;
+        }
         .hamenu .cont-info {
             display: none;
         }
