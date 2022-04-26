@@ -1829,6 +1829,9 @@
         position: absolute;
         left: 20px;
     }
+    .navbar-toggler{
+        font-size: 1.8rem !important;
+    }
     
     .navbar.light .navbar-nav .nav-link {
         color: #0c0f16;
@@ -6405,7 +6408,8 @@
         }
         .navbar .logo {
             margin-left: 15px;
-            width: 50px;
+            width: 150px;
+            position: inherit !important;
         }
         .nav-scroll .navbar-collapse .nav-link,
         .light .navbar-collapse .nav-link {
@@ -6587,6 +6591,9 @@
     }
     
     @media screen and (max-width: 767px) {
+        .about .container .row .col-lg-5{
+            display: none
+        }
         .about .ftbox ul li {
             padding: 35px 5px;
         }
@@ -6643,7 +6650,7 @@
             padding-bottom: 80px;
         }
         .container {
-            max-width: 540px;
+            max-width: 660px;
         }
         h1 {
             font-size: 35px;
@@ -6668,7 +6675,12 @@
             bottom: 15px;
         }
         .navbar .logo {
-            width: 40px;
+            width: 150px;
+            left: 0px;
+            position: inherit !important;
+        }
+        .navbar-toggler{
+            font-size: 2rem;
         }
         .hamenu .menu-links .main-menu>li {
             font-size: 24px;
@@ -6728,7 +6740,7 @@
             font-size: 40px;
         }
         .slider-bus .caption h1 {
-            font-size: 70px;
+            font-size: 40px;
         }
         .freelancer .cont h1 {
             font-size: 60px;
@@ -6827,9 +6839,9 @@
         .pages-header .cont .path span {
             margin: 0 10px;
         }
-        .slider-bus .caption h1 {
+        /* .slider-bus .caption h1 {
             font-size: 50px;
-        }
+        } */
         .slider .swiper-pagination-fraction.steps {
             bottom: 60px;
         }
