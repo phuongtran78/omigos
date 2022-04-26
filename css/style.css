@@ -2834,14 +2834,14 @@
     }
     
     .slider-bus .setone .swiper-nav-ctrl {
-        color: #ccc;
+        color: #75dab4;
         font-size: 13px;
         width: 55px;
         height: 55px;
         line-height: 55px;
         text-align: center;
         margin: 5px 0;
-        border: 1px solid rgba(255, 255, 255, 0.3);
+        border: 1px solid rgb(0, 210, 151);
         position: static;
     }
     
@@ -2875,7 +2875,7 @@
         left: 60px;
         bottom: 30px;
         width: auto;
-        color: #fff;
+        color: #75dab4;
         font-size: 40px;
         font-weight: 500;
     }
@@ -2885,7 +2885,7 @@
         font-weight: 700;
         position: relative;
         color: transparent;
-        -webkit-text-stroke: .5px #fff;
+        -webkit-text-stroke: .5px #75dab4;
     }
     
     .slider-bus .swiper-pagination-fraction .swiper-pagination-current:after {
@@ -2944,7 +2944,7 @@
     }
     
     .slider-bus .caption h1 {
-        font-size: 60px;
+        font-size: 50px;
         font-weight: 800;
         letter-spacing: 1px;
         word-spacing: 15px;
