@@ -598,9 +598,9 @@ $(window).on("load", function() {
 
     /* ===============================  contact validator  =============================== */
 
-    $('#contact-form').validator();
+    $('#contact-formx').validator();
 
-    $('#contact-form').on('submit', function(e) {
+    $('#contact-formx').on('submit', function(e) {
         if (!e.isDefaultPrevented()) {
             var url = "contact.php";
 
@@ -614,8 +614,8 @@ $(window).on("load", function() {
 
                     var alertBox = '<div class="alert ' + messageAlert + ' alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' + messageText + '</div>';
                     if (messageAlert && messageText) {
-                        $('#contact-form').find('.messages').html(alertBox);
-                        $('#contact-form')[0].reset();
+                        $('#contact-formx').find('.messages').html(alertBox);
+                        $('#contact-formx')[0].reset();
                     }
                 }
             });

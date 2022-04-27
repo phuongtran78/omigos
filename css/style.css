@@ -143,6 +143,11 @@
     .custom-font {
         font-family: 'Manrope', sans-serif;
     }
+    
+    .custom-font-2 {
+        font-family: 'Manrope', sans-serif;
+        text-align: right;
+    }
     /* font-family: 'Barlow Condensed', sans-serif; } */
     /* ====================== [ End Typography  ] ====================== */
     /* ====================== [ Start Helper Classes  ] ====================== */
@@ -1523,7 +1528,7 @@
     /* ====================== [  Start Button Style ] ====================== */
     
     .btn-curve {
-        background: transparent;
+        background: #75dab4;
         padding: 12px 35px;
         border: 1px solid #1e1e1e;
         position: relative;
@@ -1579,7 +1584,7 @@
     }
     
     .btn-curve.btn-lit {
-        border-color: #fff;
+        border-color: #75dab4;
         color: #fff;
     }
     
@@ -4907,7 +4912,10 @@
     }
     
     .team .team-container {
-        width: 150%;
+        position: relative;
+    }
+    
+    .team .team-container-2 {
         position: relative;
     }
     
@@ -4921,13 +4929,23 @@
         z-index: -1;
     }
     
+    .team .team-container-2:after {
+        content: '';
+        position: absolute;
+        top: -120px;
+        bottom: -120px;
+        width: 100%;
+        background: #ffffff;
+        z-index: -1;
+    }
+    
     .team .item {
         padding: 0 15px;
     }
     
     .team .item .info {
         padding: 15px;
-        background: #fff;
+        background: #efefef;
         text-align: center;
         position: relative;
         overflow: hidden;
@@ -6351,6 +6369,9 @@
         .team .team-container {
             width: 105%;
         }
+        .team .team-container-2 {
+            width: 105%;
+        }
         .bg-img {
             background-position: center !important;
         }
@@ -6846,6 +6867,9 @@
     
     @media screen and (max-width: 480px) {
         .team .team-container {
+            width: 100%;
+        }
+        .team .team-container-2 {
             width: 100%;
         }
         .hamenu .cont-info {
