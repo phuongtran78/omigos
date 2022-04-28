@@ -920,7 +920,7 @@
         padding: 0 !important;
     }
     /* ====================== [ End Helper Classes  ] ====================== */
-    /* ====================== [ Start Custome Code ] ====================== */
+    /* ====================== [ Start Cuztom Code ] ====================== */
     
     .opacity-none {
         opacity: 0;
@@ -957,7 +957,27 @@
     .tr-head {
         padding-bottom: 40px;
     }
-    /* ====================== [ End Custome Code ] ====================== */
+    
+    .nav-dark {
+        background: #FFF !important;
+        opacity: 0.9;
+    }
+    
+    .text-light {
+        color: #000 !important;
+    }
+    
+    .img-size {
+        max-height: 300px;
+    }
+    /* .team .container {
+        max-width: 500px;
+    } */
+    
+    .pr-10 {
+        padding-right: 10px;
+    }
+    /* ====================== [ End Cuztom Code ] ====================== */
     /* ====================== [ Start Preloader ] ====================== */
     
     .pace {
@@ -1841,6 +1861,12 @@
         left: 20px;
     }
     
+    .navbar .logo-2 {
+        width: 200px;
+        position: absolute;
+        left: 20px;
+    }
+    
     .navbar-toggler {
         font-size: 1.8rem !important;
     }
@@ -1910,6 +1936,10 @@
     }
     
     .topnav .logo {
+        width: 50px;
+    }
+    
+    .topnav .logo-2 {
         width: 50px;
     }
     
@@ -4950,6 +4980,8 @@
         text-align: center;
         position: relative;
         overflow: hidden;
+        width: 400px;
+        margin: 0 auto;
     }
     
     .team .item .info h5 {
@@ -4983,7 +5015,7 @@
     }
     
     .team .item .info .social a {
-        font-size: 13px;
+        font-size: 20px;
         margin: 0 8px;
         color: #75dab4;
     }
@@ -6455,6 +6487,11 @@
             width: 150px;
             position: inherit !important;
         }
+        .navbar .logo-2 {
+            margin-left: 15px;
+            width: 150px;
+            position: inherit !important;
+        }
         .nav-scroll .navbar-collapse .nav-link,
         .light .navbar-collapse .nav-link {
             color: #fff !important;
@@ -6726,6 +6763,11 @@
             left: 0px;
             position: inherit !important;
         }
+        .navbar .logo-2 {
+            width: 150px;
+            left: 0px;
+            position: inherit !important;
+        }
         .navbar-toggler {
             font-size: 2rem;
         }
@@ -6739,6 +6781,9 @@
             padding: 0 30px;
         }
         .topnav .logo {
+            width: 40px;
+        }
+        .topnav .logo-2 {
             width: 40px;
         }
         .btn-curve {
