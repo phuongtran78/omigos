@@ -974,8 +974,17 @@
         max-width: 500px;
     } */
     
+    .text-boss {
+        position: absolute !important;
+        right: calc(-15% - 50px) !important;
+    }
+    
     .pr-10 {
         padding-right: 10px;
+    }
+    
+    .pages-header .cont .custom-font {
+        font-size: 60px !important;
     }
     /* ====================== [ End Cuztom Code ] ====================== */
     /* ====================== [ Start Preloader ] ====================== */
@@ -1592,10 +1601,10 @@
     }
     
     .btn-curve span {
-        font-size: 13px;
-        font-weight: 500;
+        font-size: 14px;
+        font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 2px;
+        letter-spacing: 1px;
         position: relative;
         z-index: 2;
         -webkit-transition: all .8s;
@@ -3285,7 +3294,7 @@
     .showcase-carus .caption h1 .stroke,
     .showcase-carus .copy-cap h1 .stroke {
         color: transparent;
-        -webkit-text-stroke: 1px #fff;
+        -webkit-text-stroke: 1px #0078e1;
         -webkit-transform: skewX(25deg) translateX(-100px);
         -ms-transform: skewX(25deg) translateX(-100px);
         transform: skewX(25deg) translateX(-100px);
@@ -3376,11 +3385,11 @@
     
     .showcase-carus .copy-cap .cap h1 span {
         color: transparent;
-        -webkit-text-stroke: 1px #fff;
+        -webkit-text-stroke: 1px #0078e1;
     }
     
     .showcase-carus .copy-cap .cap h1 .stroke {
-        color: #fff;
+        color: #0078e1;
         -webkit-text-stroke: 0;
     }
     
