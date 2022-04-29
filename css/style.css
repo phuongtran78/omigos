@@ -986,6 +986,33 @@
     .pages-header .cont .custom-font {
         font-size: 60px !important;
     }
+    
+    .loading {
+        font-size: 30px;
+    }
+    
+    .loading:after {
+        overflow: hidden;
+        display: inline-block;
+        vertical-align: bottom;
+        -webkit-animation: ellipsis steps(4, end) 2500ms infinite;
+        animation: ellipsis steps(4, end) 2500ms infinite;
+        content: "\2026";
+        /* ascii code for the ellipsis character */
+        width: 0px;
+    }
+    
+    @keyframes ellipsis {
+        to {
+            width: 1em;
+        }
+    }
+    
+    @-webkit-keyframes ellipsis {
+        to {
+            width: 1em;
+        }
+    }
     /* ====================== [ End Cuztom Code ] ====================== */
     /* ====================== [ Start Preloader ] ====================== */
     
